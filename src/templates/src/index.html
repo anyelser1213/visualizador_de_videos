@@ -68,7 +68,7 @@
 
 {% endblock %}
 
-{% block title %}Index{% endblock %}
+{% block titulo %}Index{% endblock %}
 
 {% block contenedor %}
 
@@ -79,21 +79,24 @@
       <div class="col border">col</div>
       <div class="col border">col</div>
     </div>
-    <div class="row">
-      <div class="col-4 border">col-4
 
-                    
+    <br><br><br>
+
+
+    <div class="row">
+      <div class="col-sm-4 border">col-sm-4
+
+                          
             <section class="section-content py-3">
+                <input type="text" class="col-sm-4" placeholder="Buscador"> 
                 <div class="row">
+                    
                     <aside class="col-lg"> 
             <!-- ============= COMPONENT ============== -->
             <nav class="sidebar card py-2 mb-4">
             <ul class="nav flex-column" id="nav_accordion">
-                <li class="nav-item">
-                    <a class="nav-link" href="#"> Link name </a>
-                </li>
                 <li class="nav-item has-submenu">
-                    <a class="nav-link" href="#"> Submenu links <i class="bi small bi-caret-down-fill"></i> </a>
+                    <a class="nav-link" href="#"> Zulia <i class="bi small bi-caret-down-fill"></i> </a>
                     <ul class="submenu collapse">
                         <li><a class="nav-link" href="#">Submenu item 1 </a></li>
                         <li><a class="nav-link" href="#">Submenu item 2 </a></li>
@@ -101,7 +104,15 @@
                     </ul>
                 </li>
                 <li class="nav-item has-submenu">
-                    <a class="nav-link" href="#"> More menus <i class="bi small bi-caret-down-fill"></i> </a>
+                    <a class="nav-link" href="#"> Zamorano <i class="bi small bi-caret-down-fill"></i> </a>
+                    <ul class="submenu collapse">
+                        <li><a class="nav-link" href="#">Submenu item 1 </a></li>
+                        <li><a class="nav-link" href="#">Submenu item 2 </a></li>
+                        <li><a class="nav-link" href="#">Submenu item 3 </a> </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-submenu">
+                    <a class="nav-link" href="#"> Caliente <i class="bi small bi-caret-down-fill"></i> </a>
                     <ul class="submenu collapse">
                         <li><a class="nav-link" href="#">Submenu item 4 </a></li>
                         <li><a class="nav-link" href="#">Submenu item 5 </a></li>
@@ -110,12 +121,20 @@
                     </ul>
                 </li>
                 <li class="nav-item has-submenu">
-                    <a class="nav-link" href="#"> Another submenus <i class="bi small bi-caret-down-fill"></i> </a>
+                    <a class="nav-link" href="#"> Caracas <i class="bi small bi-caret-down-fill"></i> </a>
                     <ul class="submenu collapse">
                         <li><a class="nav-link" href="#">Submenu item 8 </a></li>
                         <li><a class="nav-link" href="#">Submenu item 9 </a></li>
                         <li><a class="nav-link" href="#">Submenu item 10 </a></li>
                         <li><a class="nav-link" href="#">Submenu item 11 </a></li>
+                    </ul>
+                </li>
+                <li class="nav-item has-submenu">
+                    <a class="nav-link" href="#"> Jungla <i class="bi small bi-caret-down-fill"></i> </a>
+                    <ul class="submenu collapse">
+                        <li><a class="nav-link" href="#">Submenu item 1 </a></li>
+                        <li><a class="nav-link" href="#">Submenu item 2 </a></li>
+                        <li><a class="nav-link" href="#">Submenu item 3 </a> </li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -140,29 +159,18 @@
 
         </div>
 
-        
+
       <div class="col-8 border">
           
-        <main class="col-lg-9">
+        <main class=" col-sm-9 col-lg-9">
 
-            <h6>Demo for sidebar collapsible menu with Boostrap 5 methods, without jquery. <br> Based on Bootstrap 5 scripts.  </h6>
-            <p>For this demo page you should connect to the internet to receive files from CDN  like Bootstrap5 CSS, Bootstrap5 JS</p>
+            <h6 class="justifid-content">VIDEO ESCOGIDO.  </h6>
             
-            <p class="text-muted"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+            <video width="500" height="500" controls>
+                <source src="{{file.video.url}}" >
+            </video>
             
-            <a href="https://bootstrap-menu.com/detail-sidebar-nav-collapse.html" class="btn btn-success"> &laquo Back to tutorial or Download code</a>
-            
-                    </main>
+        </main>
       </div>
     </div>
   </div>
