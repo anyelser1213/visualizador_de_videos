@@ -1,3 +1,4 @@
+import os
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
@@ -147,12 +148,60 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
 
 
 class Video(models.Model):
+    categorias = [
+        #El primer campo es para bases de datos y el segundo para visualizar
+        ("zulia", 'Zulia'),
+        ("zamorano", 'Zamorano'),
+    ]
+    meses = [
+        #El primer campo es para bases de datos y el segundo para visualizar
+        ("enero", 'Enero'),
+        ("febrero", 'Febrero'),
+        ("marzo", 'Marzo'),
+        ("abril", 'Abril'),
+        ("mayo", 'Mayo'),
+        ("junio", 'Junio'),
+        ("julio", 'Julio'),
+        ("agosto", 'Agosto'),
+        ("septiembre", 'Septiembre'),
+        ("octubre", 'Octubre'),
+        ("noviembre", 'Noviembre'),
+        ("diciembre", 'Diciembre'),
+
+    ]
+
+
     nombre = models.CharField(max_length=200)
+    
+    categoria = models.CharField(
+        max_length=50,
+        choices=categorias,
+        default="zulia",
+    )
+    mes = models.CharField(
+        max_length=50,
+        choices=meses,
+        default="enero",
+    )
     video = models.FileField(upload_to='videos/')
 
     db_table = 'Video'
     def __str__(self):
         return self.nombre
+
+    def save(self, *args, **kwargs): 
+
+        print("Probando con videos") 
+        print(self.video)
+        print(self.video.name)
+        #print(self.video.filename)
+        
+        #self.video.name = self.categoria,"/",self.mes
+        aux = os.path.join(self.categoria,self.mes,self.video.name)
+        print(aux)
+        self.video.name = aux
+        print(self.video.name)
+        super(Video, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = "video"

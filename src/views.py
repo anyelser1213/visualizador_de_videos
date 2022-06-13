@@ -67,9 +67,14 @@ class Index(TemplateView):
             return redirect("/login")
 
         else:
-            print("Estas autenticado")
+            print("Estas autenticado GENIAL")
             print("Usuario ",request.user)
             print("Usuario Id ", request.user.id)
+
+            doc = Video()
+            doc.video.name = 'path/to/file'  # must be relative to MEDIA_ROOT
+            print(doc.video)
+            
             #empresa_creada = Empresa.objects.filter(creado_por_id=request.user.id)
 
 
@@ -78,7 +83,6 @@ class Index(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['informacion'] = "Hola..."
-        print("usuario:",self.request.user)
         #print("rol:",self.request.user.rol)
 
         """
