@@ -1,9 +1,13 @@
 from .models import Video
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 #Clases para el login
 from django.contrib.auth.views import LoginView, LogoutView
 from .form import * #Asi importamos todos los formularios 
+
+
+#Clases para las plantillas
+from django.views.generic import TemplateView, CreateView, UpdateView, DetailView, ListView, DeleteView
 
 
 
@@ -42,21 +46,54 @@ class Login(LoginView):
 
 
 
-def index(request):
-    if request.method == "POST":
-        # Fetching the form data
-        Titulo = request.POST["titulo"]
-        uploadedFile = request.FILES["uploadedFile"]
+class Logout(LogoutView):
 
-        # Saving the information in the database
-        video = Video(
-            nombre = Titulo,
-            video = uploadedFile
-        )
-        video.save()
+    template_name = "src/login.html"
+    next_page = "src:login"
 
-    documents = Video.objects.all()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['informacion'] = "Hola..."
+        return context
+    
+class Index(TemplateView):
 
-    return render(request, "src/index.html", context = {
-        "files": documents
-    })
+    template_name = "src/index.html"
+
+    def dispatch(self, request, *args, **kwargs):
+
+        if request.user.is_anonymous:
+            print("No estas autenticado, eres un usuario anonimo")
+            return redirect("/login")
+
+        else:
+            print("Estas autenticado")
+            print("Usuario ",request.user)
+            print("Usuario Id ", request.user.id)
+            #empresa_creada = Empresa.objects.filter(creado_por_id=request.user.id)
+
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['informacion'] = "Hola..."
+        print("usuario:",self.request.user)
+        #print("rol:",self.request.user.rol)
+
+        """
+        #Aqui dependiendo del tipo de usuario se ven los departamentos
+        if self.request.user.rol == "master":
+            pass
+            context['departamentos'] = Departamento.objects.all()
+            context['departamentos'] = Departamento.objects.filter(creado_por=self.request.user)
+        else:
+        
+            context['departamentos'] = Departamento.objects.filter(creado_por=self.request.user)
+            print(context['departamentos'])
+        """
+        
+        context['usuario'] = self.request.user
+        return context
+
+
