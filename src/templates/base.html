@@ -1,0 +1,203 @@
+<!doctype html>
+{% load static %}
+<html lang="es">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    {% block EnlacesBootstrap5 %}
+    <!-- Bootstrap CSS -->
+
+    <link rel="stylesheet" href="{% static 'src/vendor/bootstrap-5.1.0-dist/css/bootstrap.min.css' %}">
+    <link rel="shortcut icon" href="{% static 'src/img/circles.png' %}" type="image/x-icon">
+
+    {% endblock %}
+
+    {% block EnlacesPlantillas %}
+     <!-- Font Awesome ( ICONO)-->
+    <link rel="stylesheet" href="{% static 'src/vendor/fontawesome-free/css/all.min.css' %}"> 
+
+    <!-------Iconos Boostrap------>
+    <link rel="stylesheet" href="{% static 'src/vendor/bootstrap-icons-1.8.0/bootstrap-icons.css' %}">
+    
+    <!-- Theme style Estilos de plantilla-->
+    <link rel="stylesheet" href="{% static 'src/dist/css/adminlte.min.css' %}">
+
+
+
+    <link rel="stylesheet" href="{% static 'src/css/estilo_footer.css' %}">
+
+    
+
+
+    {% endblock %}
+
+    {% block EnlacesPersonalizados %}
+
+    <link rel="stylesheet" href="{% static 'src/css/estilo_menu.css' %}">
+    
+
+    
+
+    {% endblock %}
+    
+    <title>circles.io</title>
+  </head>
+
+  <body class="hold-transition sidebar-mini layout-fixed">
+    {% block menu_superior %}
+    
+    <!--AAqui se incluye el menu superior-->
+      {% include "menu_superior.html" with tema="departamento" %}
+    
+      {% endblock%}
+
+
+    {% block menu_dashboar %}
+
+    
+     
+    {% endblock%}
+
+    
+    
+    
+
+    
+      {% block contenedor %} 
+
+
+
+            <section class="content-header">
+              <div class="container-fluid">
+              
+                  <div class="m-0">
+                    <h1>Titulo</h1>
+                  </div>
+                
+              </div>
+            </section>
+          
+          <div class="container">
+          
+          
+          </div>
+    
+            <!-- Control Sidebar -->
+            <aside class="control-sidebar control-sidebar-dark">
+              <!-- Control sidebar content goes here -->
+            </aside>
+            <!-- /.control-sidebar -->
+
+
+            
+          
+    {% endblock %}
+
+
+    {% block footer %}
+
+
+            <br>
+            <br>
+          <footer>
+
+            <div class="container__footer">
+
+              <div class="box__footer">
+                
+              
+                <div class="terms">
+                  <h4>About</h4>
+
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                    </p>
+                </div>
+                 
+
+                </div>
+                <div class="box__footer">
+                    <h4>Links</h4>
+                    <a href="#"> <i class="fas fa-arrow-right"></i> About</a>
+                    <a href="#"> <i class="fas fa-arrow-right"></i> Privacy Policy</a>
+                    <a href="#"> <i class="fas fa-arrow-right"></i> About</a>
+                    <a href="#"> <i class="fas fa-arrow-right"></i> Terms of service</a>
+                </div>
+                <div class="box__footer">
+                  <h4>Get in Touch</h4>
+                    <span><i class="bi bi-geo-alt-fill"></i> Miami, FLorida EEUU</span>
+                    <span><i class="bi bi-telephone-fill"></i> +91 9999999999</span>
+                    <span><i class="bi bi-envelope-fill"></i> help@vouchly.io</span>
+           
+                  
+              </div>
+              <div class="box__footer">
+                <h4>Social networks</h4>
+                <a href="#"> <i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#"> <i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#">  <i class="fab fa-twitter"></i> Twitter</a>
+            </div>
+              </div>
+         <!-------    <div class="box__copyright">
+                  <hr>
+                  <p>Todos los derechos reservados ° 2022
+                    <b>Circles.io</b>
+                  </p>
+                  <div class="logo">
+                    <img src="{% static 'src/img/logos/cicles.png' %}" alt="">
+                </div>
+              </div>----->  
+        </footer>
+
+        
+
+
+    {% endblock %}
+  
+
+    
+    
+
+    
+    
+
+    {% block EnlacesGraficas_js %}
+
+      
+    
+    {% endblock %}
+
+
+    {% block EnlacesListado_js %}
+
+       
+
+    {% endblock %}
+
+
+    {% block EnlacesBootstrap5js %}
+
+
+          
+
+          <!-- Option 1: Bootstrap Bundle with Popper -->
+          
+          <script src="{% static 'src/vendor/bootstrap-5.1.0-dist/js/bootstrap.bundle.min.js' %}" ></script>
+          
+          
+          <!-- Option 2: Separate Popper and Bootstrap JS -->
+          <!--
+          <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+          -->
+
+          
+
+          
+    {% endblock %}
+
+    
+  </body>
+</html>

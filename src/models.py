@@ -8,7 +8,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 class UsuarioManager(BaseUserManager):
 
-    def create_user(self,email,username,password=None,rol="usuario",admin = False,is_superuser =False,plan_elegido="gratis"):
+    def create_user(self,email,username,password=None,admin = False,is_superuser =False,plan_elegido="gratis"):
         print("Creamos Usuario Normal")
         #if not email:
         #    raise ValueError('El usuario debe tener un correo electronico')
@@ -18,10 +18,10 @@ class UsuarioManager(BaseUserManager):
             username = username,
             email = self.normalize_email(email),
             password = password,
-            rol = rol,
+            #rol = rol,
             admin =admin,
             is_superuser = is_superuser,
-            plan_elegido = plan_elegido,
+            #plan_elegido = plan_elegido,
         )
 
         #aqui encriptamos la clave para no guardar en texto plano
@@ -102,7 +102,7 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
     objects = UsuarioManager()
 
     USERNAME_FIELD = 'username'  #Para estableccer este campo como unico
-    REQUIRED_FIELDS = ['email','rol','is_superuser','admin'] # Campos obligatorios(los pide cuando los creas por consola)
+    REQUIRED_FIELDS = ['email','is_superuser'] # Campos obligatorios(los pide cuando los creas por consola)
 
     def __str__(self):
         return f'Usuario {self.username}'
