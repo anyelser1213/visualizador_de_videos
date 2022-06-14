@@ -152,6 +152,9 @@ class Video(models.Model):
         #El primer campo es para bases de datos y el segundo para visualizar
         ("zulia", 'Zulia'),
         ("zamorano", 'Zamorano'),
+        ("caliente", 'Caliente'),
+        ("caracas", 'Caracas'),
+        ("jungla", 'Jungla'),
     ]
     meses = [
         #El primer campo es para bases de datos y el segundo para visualizar
