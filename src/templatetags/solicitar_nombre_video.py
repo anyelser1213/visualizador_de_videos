@@ -8,3 +8,12 @@ register = template.Library()
 def lower(value): # Only one argument.
     
     return "ENTREGASTE "+value
+
+
+
+@register.inclusion_tag('inclusion.html')
+def videos_contador():
+
+    return {
+        'saludo':'Anyelser Bienvenido'
+    }
