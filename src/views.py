@@ -67,13 +67,11 @@ class Index(TemplateView):
             return redirect("/login")
 
         else:
+
             print("Estas autenticado GENIAL")
             print("Usuario ",request.user)
             print("Usuario Id ", request.user.id)
 
-            doc = Video()
-            doc.video.name = 'path/to/file'  # must be relative to MEDIA_ROOT
-            print(doc.video)
             
             #empresa_creada = Empresa.objects.filter(creado_por_id=request.user.id)
 
@@ -99,5 +97,12 @@ class Index(TemplateView):
         
         context['usuario'] = self.request.user
         return context
+
+
+
+def pruebas(request):
+
+
+    return render(request, 'pruebas.html', {})
 
 
