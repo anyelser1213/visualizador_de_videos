@@ -3,7 +3,7 @@
 
 {% if existe %}
   {% for video in videos %}
-  <li><a class="dropdown-item" href="#">{{video.nombre}}</a></li>
+  <li ><a data-url={{video.video.url}} class="dropdown-item" href="#" onclick="VisualizarVideo(this)">{{video.nombre}}-----{{video.video.url}}</a></li>
 
   {% endfor %}
 {% endif%}

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-
+{% load static %}
 {% block EnlacesPersonalizados %}
 {% load tag_videos %}
     
@@ -176,8 +176,8 @@
             <main>
 
                 <div class="ratio  ratio-1x1 mx-auto  m-5">
-                    <video width="500" height="500" controls allowfullscreen>
-                        <source src="{{file.video.url}}" >
+                    <video id="VideoCapa" width="500" height="500" controls allowfullscreen>
+                        <source id="SourceVisual" src="{{file.video.url}}" >
                     </video>
                     <!--<iframe src="https://www.youtube.com/embed/ABM5UJeILjo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
                 </div>
@@ -225,5 +225,12 @@
   </div>
 
 
+
+{% endblock %}
+
+
+{% block EnlacesListado_js %}
+
+  <script src="{% static 'src/js/visualizar_video.js'%}"></script>       
 
 {% endblock %}
