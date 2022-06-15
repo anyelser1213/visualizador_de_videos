@@ -23,14 +23,26 @@ def ejemplo_contador():
 
 
 @register.inclusion_tag('src/enlaces_videos.html')
-def videos_cantidad(categoria,mes):
+def videos_categoria(categoria):
 
-    print("La categoria insetada es: ", categoria," y el mes es: ", mes)
-    videos = Video.objects.all()
+    print("La categoria insetada es: ", categoria," y el mes es: ")
+    videos = Video.objects.filter(categoria=categoria)
     print("Probando aqui:",videos," cantidad: ",videos.count())
     return {
         'videos':videos
     }
+
+
+def videos_mes(categoriaAsig, mesAsig):
+
+    print("La categoria insertada es: ", categoriaAsig," y el mes es: ",mesAsig)
+    videos = Video.objects.filter(categoria=categoriaAsig,mes=mesAsig)
+    print("Probando aqui:",videos," cantidad: ",videos.count())
+    return {
+        'videos':videos
+    }
+
+
 
 
 

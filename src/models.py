@@ -145,6 +145,15 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
 
 
 
+class Categoria(models.Model):
+
+    nombre = models.CharField(max_length=200)
+
+    db_table = 'categoria'
+    def __str__(self):
+        return self.nombre
+
+
 
 
 class Video(models.Model):

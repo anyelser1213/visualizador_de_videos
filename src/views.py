@@ -81,6 +81,7 @@ class Index(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['informacion'] = "Hola..."
+        context['categorias'] = Categoria.objects.all()
         #print("rol:",self.request.user.rol)
 
         """
