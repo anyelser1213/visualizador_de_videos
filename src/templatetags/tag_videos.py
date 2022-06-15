@@ -26,6 +26,7 @@ def ejemplo_contador():
 @register.simple_tag
 def videos_categoria_existe(categoria): # Only one argument.
     
+    #print("La categoria insertada es: ", categoria," y el mes es: ")
     respuesta = Video.objects.filter(categoria=categoria).exists()
     return respuesta
 
