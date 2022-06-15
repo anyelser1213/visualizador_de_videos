@@ -1,6 +1,7 @@
 
 var video = document.getElementById("VideoCapa");
 var source = document.getElementById('SourceVisual');
+var titulo =  document.getElementById('TituloVideo');
 
 
 
@@ -13,6 +14,8 @@ function VisualizarVideo(e){
     //console.log("Probando: ",e.dataset.url);
 
     source.setAttribute('src', e.dataset.url);
+    titulo.innerText = "VIDEO ESCOGIDO: "+e.innerText;
+
 
     video.load();
     video.play();
