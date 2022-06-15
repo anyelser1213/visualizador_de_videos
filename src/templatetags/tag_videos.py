@@ -22,23 +22,32 @@ def ejemplo_contador():
 
 
 
-@register.inclusion_tag('src/enlaces_videos.html')
-def videos_categoria(categoria):
 
-    print("La categoria insetada es: ", categoria," y el mes es: ")
-    videos = Video.objects.filter(categoria=categoria)
-    print("Probando aqui:",videos," cantidad: ",videos.count())
-    return {
-        'videos':videos
-    }
+@register.simple_tag
+def videos_categoria_existe(categoria): # Only one argument.
+    
+    respuesta = Video.objects.filter(categoria=categoria).exists()
+    return respuesta
+
+@register.simple_tag
+def videos_categoria_mes_existe(categoria,mes): # Only one argument.
+    
+    respuesta = Video.objects.filter(categoria=categoria,mes=mes).exists()
 
 
+    return respuesta
+
+
+
+@register.inclusion_tag('src/mes_videos.html')
 def videos_mes(categoriaAsig, mesAsig):
 
-    print("La categoria insertada es: ", categoriaAsig," y el mes es: ",mesAsig)
+    #print("La categoria insertada es: ", categoriaAsig," y el mes es: ",mesAsig)
     videos = Video.objects.filter(categoria=categoriaAsig,mes=mesAsig)
-    print("Probando aqui:",videos," cantidad: ",videos.count())
+    existen =videos.exists()
+    #print("Probando aqui:",videos," cantidad: ",videos.count())
     return {
+        'existe':existen,
         'videos':videos
     }
 

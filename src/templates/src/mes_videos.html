@@ -1,6 +1,10 @@
 
-{% for video in videos %}
-<li><a class="dropdown-item" href="#">{{video.nombre}}</a></li>
 
-{% endfor %}
+
+{% if existe %}
+  {% for video in videos %}
+  <li><a class="dropdown-item" href="#">{{video.nombre}}</a></li>
+
+  {% endfor %}
+{% endif%}
 

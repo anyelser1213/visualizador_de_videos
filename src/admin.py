@@ -57,4 +57,5 @@ admin.site.register(Usuarios, UserAdmin)
 admin.site.register(Permission)
 
 admin.site.register(Categoria)
+admin.site.register(Mes)
 admin.site.register(Video)

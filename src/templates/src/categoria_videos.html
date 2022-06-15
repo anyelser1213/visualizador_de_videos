@@ -1,4 +1,21 @@
 
+<li>
+
+    <div class="dropdown">
+        <a class="btn nav-item dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+          Enero
+        </a>
+      
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        
+            {% videos_cantidad "caracas" "enero" %}
+        </ul>
+      </div>
+
+
+</li>
+
+
 {% for video in videos %}
 <li><a class="dropdown-item" href="#">{{video.nombre}}</a></li>
 
