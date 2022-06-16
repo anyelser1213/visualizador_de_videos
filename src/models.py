@@ -148,6 +148,7 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
 class Categoria(models.Model):
 
     nombre = models.CharField(max_length=200)
+    estado = models.BooleanField(default=True)
 
     db_table = 'categoria'
     def __str__(self):
@@ -157,7 +158,12 @@ class Mes(models.Model):
 
     nombre = models.CharField(max_length=200)
 
-    db_table = 'mes'
+    
+    class Meta:
+        verbose_name = "Mes"
+        verbose_name_plural = "Meses"
+        db_table = 'mes'
+
     def __str__(self):
         return self.nombre
 
@@ -193,11 +199,9 @@ class Video(models.Model):
 
     nombre = models.CharField(max_length=200)
     
-    categoria = models.CharField(
-        max_length=50,
-        choices=categorias,
-        default="zulia",
-    )
+    categoria = models.ForeignKey("Categoria", on_delete=models.CASCADE)
+    #categoria = models.CharField(    max_length=50,    choices=categorias,    default="zulia",)
+    
     mes = models.CharField(
         max_length=50,
         choices=meses,
@@ -217,10 +221,10 @@ class Video(models.Model):
         #print(self.video.filename)
         
         #self.video.name = self.categoria,"/",self.mes
-        aux = os.path.join(self.categoria,self.mes,self.video.name)
-        print(aux)
-        self.video.name = aux
-        print(self.video.name)
+        #aux = os.path.join(self.categoria,self.mes,self.video.name)
+        #print(aux)
+        #self.video.name = aux
+        #print(self.video.name)
         super(Video, self).save(*args, **kwargs)
 
     class Meta:

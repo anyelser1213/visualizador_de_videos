@@ -93,68 +93,71 @@
                 <div class="row">
                     
                     <aside class="col-lg"> 
-            <!-- ============= COMPONENT ============== -->
-            <nav class="sidebar card py-2 mb-4 text-white bg-dark">
-            <ul class="nav flex-column" id="nav_accordion">
+                        <!-- ============= COMPONENT ============== -->
+                        <nav class="sidebar card py-2 mb-4 text-white bg-dark">
+                        <ul class="nav flex-column" id="nav_accordion">
 
-              {% for categoria in categorias %}
+                          {% for categoria in categorias %}
 
-                {% videos_categoria_existe categoria.nombre as respuesta %}
-                {% if respuesta %}
-                  <li class="nav-item has-submenu">
-                    <a class="nav-link text-white" href="#"> {{categoria.nombre|title}} <i class="bi small bi-caret-down-fill"></i> </a>
-                    <ul class="submenu collapse">
+                            
+                            {% videos_categoria_existe categoria.id as respuesta %}
+                            {% if respuesta %}
+
+                                  <li class="nav-item has-submenu">
+                                    <a class="nav-link text-white" href="#"> {{categoria.nombre|title}} <i class="bi small bi-caret-down-fill"></i> </a>
+                                    <ul class="submenu collapse">
 
 
-                      {% for mes in meses %}
-                      
+                                      {% for mes in meses %}
+                                      
+                                          {% videos_categoria_mes_existe categoria.id mes as respuestaMes %}
+                                          {% if respuestaMes %}
+                                              <li>
 
-                          {% videos_categoria_mes_existe categoria.nombre mes.nombre as respuestaMes %}
-                          {% if respuestaMes %}
-                              <li>
+                                                <div class="dropdown">
+                                                    <a class="btn nav-item dropdown-toggle text-white" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                                      {{mes.nombre|title}}
+                                                    </a>
+                                                  
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    
+                                                      {% videos_mes categoria.id mes %}
+                                                    </ul>
+                                                  </div>
+                                            
+                                            
+                                            </li>
+                                            
+                                          {% endif %}
 
-                                <div class="dropdown">
-                                    <a class="btn nav-item dropdown-toggle text-white" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                      {{mes.nombre|title}}
-                                    </a>
-                                  
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    
-                                      {% videos_mes categoria.nombre mes.nombre %}
+                                      {% endfor %}
+                                        
+
                                     </ul>
-                                  </div>
+                                </li>
+
+
+                            {% endif %}
+
+                          {% endfor %}
                             
-                            
+                            <!--
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"> Demo link </a>
                             </li>
-                            
-                          {% endif %}
-
-                      {% endfor %}
-                        
-
-                    </ul>
-                </li>
-                {% endif %}
-
-              {% endfor %}
-                
-                <!--
-                <li class="nav-item">
-                    <a class="nav-link" href="#"> Demo link </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"> Menu item </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"> Something </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"> Other link </a>
-                </li>
-                --->
-            </ul>
-            </nav>
-            <!-- ============= COMPONENT END// ============== -->	
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"> Menu item </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"> Something </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"> Other link </a>
+                            </li>
+                            --->
+                        </ul>
+                        </nav>
+                        <!-- ============= COMPONENT END// ============== -->	
                     </aside>
                     
                 </div>

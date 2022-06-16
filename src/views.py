@@ -24,7 +24,7 @@ class Login(LoginView):
 
             print("Estas autenticado y vas al INDEX.HTML")
             print(request.user)
-            return redirect("src:empresa_crear")
+            return redirect("src:index")
 
         else:
             print(request.user)
@@ -81,7 +81,7 @@ class Index(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['informacion'] = "Hola..."
-        context['categorias'] = Categoria.objects.all()
+        context['categorias'] = Categoria.objects.filter(estado=True)
         context['meses'] = Mes.objects.all()
         #print("objeto:",context['meses'])
 
