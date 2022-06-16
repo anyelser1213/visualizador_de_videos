@@ -157,6 +157,7 @@ class Categoria(models.Model):
 class Mes(models.Model):
 
     nombre = models.CharField(max_length=200)
+    estado = models.BooleanField(default=True)
 
     
     class Meta:
@@ -207,6 +208,7 @@ class Video(models.Model):
         choices=meses,
         default="enero",
     )
+    estadoMes = models.BooleanField(default=True)
     video = models.FileField(upload_to='videos/')
 
     db_table = 'Video'

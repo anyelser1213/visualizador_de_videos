@@ -82,8 +82,8 @@ class Index(TemplateView):
         context = super().get_context_data(**kwargs)
         context['informacion'] = "Hola..."
         context['categorias'] = Categoria.objects.filter(estado=True)
-        context['meses'] = Mes.objects.all()
-        #print("objeto:",context['meses'])
+        context['meses'] = Mes.objects.filter(estado=True)
+        print("objeto:",context['meses'])
 
         """
         #Aqui dependiendo del tipo de usuario se ven los departamentos
