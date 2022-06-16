@@ -22,8 +22,8 @@ class loginForm(AuthenticationForm):
 
         #self.fields['descripcion'].widget.attrs.update({'placeholder': 'Descripción','autofocus': 'true','class': 'descripcion form-control' })
         self.fields['username'].error_messages = {'required': 'Esto es grave aqui!'}
-        self.fields['username'].widget.attrs.update({'class': ' browser-default','placeholder':'Enter Username','name':'user' })
-        self.fields['password'].widget.attrs.update({'class': ' browser-default','placeholder':'Enter Password' })
+        self.fields['username'].widget.attrs.update({'class': 'form-control','placeholder':'Ingresar Usuario' })
+        self.fields['password'].widget.attrs.update({'class': 'form-control','placeholder':'Ingresar Contraseña' })
 
     class Meta:
         labels = {
@@ -36,6 +36,25 @@ class loginForm(AuthenticationForm):
             'username': {
                 'max_length': ("This writer's name is too long."),
             },
+        }
+        widgets = {
+            #"creado_por": forms.Select(attrs={'class': 'form-control' }),
+            #"username": forms.TextInput(attrs={'class': 'form-control ', 'placeholder':'Enter username' }),
+            #"nombres": forms.TextInput(attrs={'class': 'form-control ', 'placeholder':'Enter name' }),
+            #"email": forms.EmailInput(attrs={'class': 'browser-default' , 'placeholder':'Enter email'}),
+            #"apellidos": forms.TextInput(attrs={'class': 'browser-default ', 'placeholder':'Enter full name' }),
+            #"cedula": forms.NumberInput(attrs={'class': 'form-control ', 'placeholder':'Enter DNI' }),
+            #"compañia": forms.Select(attrs={'class': 'form-control' }),
+            #"rol": forms.Select(attrs={'class': 'form-control' }),
+            #"direccion": forms.TextInput(attrs={'class': 'form-control ', 'placeholder':'Enter Address' }),
+            #"telefono": forms.TextInput(attrs={'class': 'form-control ', 'placeholder':'Enter telephone' }),
+            #"imagen": forms.FileInput(attrs={'class': 'form-control' }),
+            #"password1": forms.PasswordInput(attrs={'class': 'form-control' }),
+            #'password1': forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'})),
+            #"password2": forms.PasswordInput(attrs={'class': 'form-control' }),
+            #"nombres": forms.TextInput(attrs={'class': 'form-control ', 'placeholder':'Enter name' }),
+
+            
         }
 
         #self.fields['fotografia'].widget.attrs.update({'class': 'dropify form-control' })

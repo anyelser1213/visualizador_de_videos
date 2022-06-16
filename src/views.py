@@ -33,8 +33,8 @@ class Login(LoginView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print("Metodo:",self.request.method)
-        print(self.form_class())
+        #print("Metodo:",self.request.method)
+        #print(self.form_class())
         #context['titulo'] = "Vouchly"
         context['formRegistro'] = UsuariosForm(self.request.POST or None)
         return context
