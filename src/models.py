@@ -198,7 +198,7 @@ class Video(models.Model):
     ]
 
 
-    nombre = models.CharField(max_length=200)
+    nombre = models.CharField(max_length=200, null=True, blank=True)
     
     categoria = models.ForeignKey("Categoria", on_delete=models.CASCADE)
     #categoria = models.CharField(    max_length=50,    choices=categorias,    default="zulia",)
@@ -218,15 +218,20 @@ class Video(models.Model):
     def save(self, *args, **kwargs): 
 
         print("Probando con videos") 
-        print(self.video)
-        print(self.video.name)
         #print(self.video.filename)
         
         #self.video.name = self.categoria,"/",self.mes
         #aux = os.path.join(self.categoria,self.mes,self.video.name)
         #print(aux)
         #self.video.name = aux
+
+
+        #indice_final = 
         #print(self.video.name)
+        #print("prueba: ",self.video.name[:self.video.name.index('.')])
+        
+        self.nombre = self.video.name[:self.video.name.index('.')]#Guardamos el nombre del video
+        self.video.name = os.path.join(str(self.categoria),str(self.mes),self.video.name)#Guardamos la ruta
         super(Video, self).save(*args, **kwargs)
 
     class Meta:

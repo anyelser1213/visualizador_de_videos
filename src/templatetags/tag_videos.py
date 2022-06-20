@@ -45,7 +45,7 @@ def videos_categoria_mes_existe(categoria,mes): # Only one argument.
 @register.inclusion_tag('src/mes_videos.html')
 def videos_mes(categoriaAsig, mesAsig):
 
-    print("La categoria insertada es: ", categoriaAsig," y el mes es: ",mesAsig)
+    #print("La categoria insertada es: ", categoriaAsig," y el mes es: ",mesAsig)
     #videos = Video.objects.all()
     videos = Video.objects.filter(categoria=categoriaAsig,mes=mesAsig)
     existen =videos.exists()
