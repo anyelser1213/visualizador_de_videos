@@ -70,9 +70,10 @@ class Index(TemplateView):
 
             print("Estas autenticado GENIAL")
             #print("Usuario ",request.user)
-            #print("Usuario Id ", request.user.id)
-            grupo="prueba"
-            print('Proyecto %s' % (grupo))
+
+            #Esto es algo que podria funcionar en algun momento
+            #grupo="prueba"
+            #print('Proyecto %s' % (grupo))
 
             
             #empresa_creada = Empresa.objects.filter(creado_por_id=request.user.id)
@@ -85,7 +86,6 @@ class Index(TemplateView):
         context['informacion'] = "Hola..."
         context['categorias'] = Categoria.objects.filter(estado=True)
         context['meses'] = Mes.objects.filter(estado=True)
-        print("objeto:",context['meses'])
         
 
         """
