@@ -1,6 +1,9 @@
 import os
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.dispatch import receiver
+from django.db.models.signals import post_save, pre_delete, post_delete
 
 # Create your models here.
 
@@ -208,7 +211,8 @@ class Video(models.Model):
         choices=meses,
         default="enero",
     )
-    estadoMes = models.BooleanField(default=True)
+
+    activo = models.BooleanField(default=True)
     video = models.FileField(upload_to='videos/')
 
     db_table = 'Video'
@@ -237,3 +241,27 @@ class Video(models.Model):
     class Meta:
         verbose_name = "video"
         verbose_name_plural = "Videos"
+
+@receiver(post_save,sender=Video)
+def CrearVideo(sender,instance,**kwargs):
+
+    print("Se acaba de crear un video")
+
+
+@receiver(pre_delete,sender=Video)
+def BorrarVideo(sender,instance,**kwargs):
+
+    print(sender)
+    print(instance)
+    print(instance.video)
+    print(instance.video.name)
+    #eliminando con la ruta correcta
+    #print("RUTA: ",os.path.join(settings.MEDIA_ROOT+instance.video.name))
+    #print("RUTA MEDIA_ROOT: ",settings.MEDIA_ROOT)
+    #os.remove(os.path.join(settings.MEDIA_ROOT+instance.video.name))
+    #pathExt = r"/media/videos/zulia/enero/2021-03-22_21-01-22.mkv"
+    #os.remove(os.path.join(settings.MEDIA_ROOT))
+    #os.remove(os.path.join(settings.MEDIA_ROOT+"\\media\\videos\\zulia\\enero\\2021-03-22_21-01-22.mkv"))
+
+    print("Se acaba de Borrar el video")
+

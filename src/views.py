@@ -86,6 +86,20 @@ class Index(TemplateView):
         context['informacion'] = "Hola..."
         context['categorias'] = Categoria.objects.filter(estado=True)
         context['meses'] = Mes.objects.filter(estado=True)
+
+        miVideo = Video.objects.get(pk=1)
+        print("RUTA: ",os.path.join(settings.MEDIA_ROOT))
+        print("RUTA MEDIA_ROOT: ",miVideo.video)
+        pathExt = miVideo.video.name
+        print("SIN LA R: ",pathExt)
+        print("CON LA R: ",r'(pathExt)')
+
+        print(os.path.join(settings.MEDIA_ROOT+"/"+str(miVideo.video)))
+        os.remove(os.path.join(settings.MEDIA_ROOT+"/"+str(miVideo.video)))
+        
+        #pathExt = r"/media/videos/zulia/enero/2021-03-22_21-01-22.mkv"
+        #os.remove(os.path.join(settings.MEDIA_ROOT))
+        #os.rmdir(os.path.join(settings.MEDIA_ROOT+r"/videos"))
         
 
         """
