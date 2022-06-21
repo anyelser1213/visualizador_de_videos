@@ -59,7 +59,7 @@ class Logout(LogoutView):
     
 class Index(TemplateView):
 
-    template_name = "src/index.html"
+    template_name = "src/index2.html"
 
     def dispatch(self, request, *args, **kwargs):
 
@@ -86,7 +86,7 @@ class Index(TemplateView):
         context = super().get_context_data(**kwargs)
         context['informacion'] = "Hola..."
         context['categorias'] = Categoria.objects.filter(activo=True)
-        context['meses'] = Subcategoria.objects.filter(activo=True)
+        context['subcategorias'] = Subcategoria.objects.filter(activo=True)
 
         #miVideo = Video.objects.get(pk=1)
         print("RUTA: ",os.path.join(settings.MEDIA_ROOT))
