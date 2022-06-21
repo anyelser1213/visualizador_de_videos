@@ -151,22 +151,27 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
 class Categoria(models.Model):
 
     nombre = models.CharField(max_length=200)
-    estado = models.BooleanField(default=True)
+    activo = models.BooleanField(default=True)
 
-    db_table = 'categoria'
+    class Meta:
+        verbose_name = "Categoria"
+        verbose_name_plural = "Categorias"
+        db_table = 'categoria'
+    
     def __str__(self):
         return self.nombre
 
-class Mes(models.Model):
+class Subcategoria(models.Model):
+
 
     nombre = models.CharField(max_length=200)
-    estado = models.BooleanField(default=True)
+    activo = models.BooleanField(default=True)
 
     
     class Meta:
-        verbose_name = "Mes"
-        verbose_name_plural = "Meses"
-        db_table = 'mes'
+        verbose_name = "Subcategoria"
+        verbose_name_plural = "Subcategorias"
+        db_table = 'subcategoria'
 
     def __str__(self):
         return self.nombre
@@ -205,7 +210,7 @@ class Video(models.Model):
     
     categoria = models.ForeignKey("Categoria", on_delete=models.CASCADE)
     #categoria = models.CharField(    max_length=50,    choices=categorias,    default="zulia",)
-    
+    subcategoria = models.CharField("",max_length=200, null=True, blank=True)
     mes = models.CharField(
         max_length=50,
         choices=meses,
@@ -215,7 +220,11 @@ class Video(models.Model):
     activo = models.BooleanField(default=True)
     video = models.FileField(upload_to='videos/')
 
-    db_table = 'Video'
+    class Meta:
+        verbose_name = "Video"
+        verbose_name_plural = "Videos"
+        db_table = 'video'
+
     def __str__(self):
         return self.nombre
 
@@ -248,6 +257,7 @@ def CrearVideo(sender,instance,**kwargs):
     print("Se acaba de crear un video")
 
 
+#Funcion de señales en Django
 @receiver(pre_delete,sender=Video)
 def BorrarVideo(sender,instance,**kwargs):
 
