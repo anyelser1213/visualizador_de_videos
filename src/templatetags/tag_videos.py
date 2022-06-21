@@ -131,10 +131,11 @@ def videos_subcategoria(categoria_nombre, subcategoria_nombre):
 
 
 
-
+    #ruta = "videos/"+categoria_nombre+"/"+subcategoria_nombre
     return {
         'existe':existen,
-        'videos':archivos
+        'videos':archivos,
+        'ruta':"/media/videos/"+categoria_nombre+"/"+subcategoria_nombre+"/"
     }
 
 
