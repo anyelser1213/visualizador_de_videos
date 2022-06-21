@@ -1,3 +1,4 @@
+from ast import Try
 from .models import Video
 from django.shortcuts import redirect, render
 
@@ -93,18 +94,29 @@ class Index(TemplateView):
         #pathExt = miVideo.video.name
         #print("SIN LA R: ",pathExt)
         print(os.name)
-        archivos = os.listdir(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/")
-        print(archivos[0])
+        
 
         # Path(prueba)
         path = '/home/User/Documents'
         
         # Get the directory name  
         # from the specified path
-        dirname = os.path.dirname(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"+archivos[0])
+        try:
+
+            archivos = os.listdir(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/")
+            print(archivos[0])
+            dirname = os.path.dirname(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"+archivos[0])
+        
+            # Muestra el directorio del archivo
+            print(dirname)
+        except:
+            #os.path.exists es para saber si existe la ruta
+            print(os.path.exists(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"))
+            print("No existe la ruta aqui")
+            #dirname = os.path.dirname(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"+archivos[0])
         
         # Muestra el directorio del archivo
-        print(dirname)
+        #print(dirname)
 
         #print(os.path.join(settings.MEDIA_ROOT+"/"+str(miVideo.video)))
         #os.remove(os.path.join(settings.MEDIA_ROOT+"/"+str(miVideo.video)))

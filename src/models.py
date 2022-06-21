@@ -150,7 +150,7 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
 
 class Categoria(models.Model):
 
-    nombre = models.CharField(max_length=200)
+    nombre = models.CharField(max_length=200,unique=True)
     activo = models.BooleanField(default=True)
 
     class Meta:
@@ -160,6 +160,27 @@ class Categoria(models.Model):
     
     def __str__(self):
         return self.nombre
+
+
+
+    #Editando los metodos
+    def save(self, *args, **kwargs): 
+
+        print("Probando con categorias") 
+        print(self.nombre)
+        os.mkdir(os.path.join(settings.MEDIA_ROOT)+"videos/"+self.nombre)
+        
+        #self.video.name = self.categoria,"/",self.mes
+        #aux = os.path.join(self.categoria,self.mes,self.video.name)
+        #print(aux)
+        #self.video.name = aux
+
+
+        #indice_final = 
+        #print(self.video.name)
+        #print("prueba: ",self.video.name[:self.video.name.index('.')])
+        
+        super(Categoria, self).save(*args, **kwargs)
 
 class Subcategoria(models.Model):
 
@@ -188,35 +209,13 @@ class Video(models.Model):
         ("caracas", 'Caracas'),
         ("jungla", 'Jungla'),
     ]
-    meses = [
-        #El primer campo es para bases de datos y el segundo para visualizar
-        ("enero", 'Enero'),
-        ("febrero", 'Febrero'),
-        ("marzo", 'Marzo'),
-        ("abril", 'Abril'),
-        ("mayo", 'Mayo'),
-        ("junio", 'Junio'),
-        ("julio", 'Julio'),
-        ("agosto", 'Agosto'),
-        ("septiembre", 'Septiembre'),
-        ("octubre", 'Octubre'),
-        ("noviembre", 'Noviembre'),
-        ("diciembre", 'Diciembre'),
-
-    ]
 
 
     nombre = models.CharField(max_length=200, null=True, blank=True)
     
     categoria = models.ForeignKey("Categoria", on_delete=models.CASCADE)
     #categoria = models.CharField(    max_length=50,    choices=categorias,    default="zulia",)
-    subcategoria = models.CharField("",max_length=200, null=True, blank=True)
-    mes = models.CharField(
-        max_length=50,
-        choices=meses,
-        default="enero",
-    )
-
+    subcategoria = models.ForeignKey("Subcategoria", on_delete=models.CASCADE, null=True, blank=True)
     activo = models.BooleanField(default=True)
     video = models.FileField(upload_to='videos/')
 
@@ -247,9 +246,7 @@ class Video(models.Model):
         self.video.name = os.path.join(str(self.categoria),str(self.mes),self.video.name)#Guardamos la ruta
         super(Video, self).save(*args, **kwargs)
 
-    class Meta:
-        verbose_name = "video"
-        verbose_name_plural = "Videos"
+    
 
 @receiver(post_save,sender=Video)
 def CrearVideo(sender,instance,**kwargs):
