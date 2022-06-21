@@ -11,7 +11,7 @@ function VisualizarVideo(e){
     //console.log("Mostrando un mensaje al hacer click",this);
 
     //Con el dataset tenemos todos los datos de la propiedad data-
-    //console.log("Probando: ",e.dataset.url);
+    console.log("Probando: ",e.dataset.url);
 
     source.setAttribute('src', e.dataset.url);
     titulo.innerText = "VIDEO ESCOGIDO: "+e.innerText;

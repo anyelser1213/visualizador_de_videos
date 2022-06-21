@@ -1,9 +1,11 @@
 import os
+import shutil #libreria para borrar carpetas esten o no llenas
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_delete, post_delete
+
 
 # Create your models here.
 
@@ -150,27 +152,113 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
 
 class Categoria(models.Model):
 
-    nombre = models.CharField(max_length=200)
-    estado = models.BooleanField(default=True)
+    nombre = models.CharField(max_length=200,unique=True)
+    activo = models.BooleanField(default=True)
 
-    db_table = 'categoria'
+    class Meta:
+        verbose_name = "Categoria"
+        verbose_name_plural = "Categorias"
+        db_table = 'categoria'
+    
     def __str__(self):
         return self.nombre
 
-class Mes(models.Model):
 
-    nombre = models.CharField(max_length=200)
-    estado = models.BooleanField(default=True)
+
+    #Editando los metodos
+    def save(self, *args, **kwargs): 
+
+        print("Probando con categorias") 
+        print(self.nombre)
+        os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.nombre)
+        
+        #self.video.name = self.categoria,"/",self.mes
+        #aux = os.path.join(self.categoria,self.mes,self.video.name)
+        #print(aux)
+        #self.video.name = aux
+
+
+        #indice_final = 
+        #print(self.video.name)
+        #print("prueba: ",self.video.name[:self.video.name.index('.')])
+        
+        super(Categoria, self).save(*args, **kwargs)
+
+
+
+#Funcion de señales en Django
+@receiver(pre_delete,sender=Categoria)
+def BorrarCategoria(sender,instance,**kwargs):
+
+    print(sender)
+    print(instance)
+    print("categoria: ",instance.nombre)
+
+
+    try:
+        #Para borrar el directorio y todo lo que haya dentro
+        ruta = os.path.join(settings.MEDIA_ROOT)+"/videos/"+instance.nombre
+        shutil.rmtree(ruta)
+
+        print(ruta)
+    except OSError as e:
+        print(f"Error:{ e.strerror}")
+
+
+    print("Se acaba de Borrar una Categoria jajaja")
+
+
+class Subcategoria(models.Model):
+
+
+    nombre = models.CharField(max_length=200,unique=True)
+    categoria = models.ForeignKey("Categoria", on_delete=models.CASCADE)
+    activo = models.BooleanField(default=True)
 
     
     class Meta:
-        verbose_name = "Mes"
-        verbose_name_plural = "Meses"
-        db_table = 'mes'
+        verbose_name = "Subcategoria"
+        verbose_name_plural = "Subcategorias"
+        db_table = 'subcategoria'
 
     def __str__(self):
-        return self.nombre
+        return self.categoria.nombre+" ----- "+self.nombre
 
+
+
+    #Editando los metodos
+    def save(self, *args, **kwargs): 
+
+        print("Probando con subcategorias") 
+        print(self.nombre)
+
+        os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.categoria.nombre+"/"+self.nombre)
+        
+        
+        super(Subcategoria, self).save(*args, **kwargs)
+
+
+#Funcion de señales en Django
+@receiver(pre_delete,sender=Subcategoria)
+def BorrarSubacategoria(sender,instance,**kwargs):
+
+    print(sender)
+    print(instance)
+    print("categoria: ",instance.categoria.nombre)
+    print("subcategoria: ",instance.nombre)
+
+
+    try:
+        #Para borrar el directorio y todo lo que haya dentro
+        ruta = os.path.join(settings.MEDIA_ROOT)+"/videos/"+instance.categoria.nombre+"/"+instance.nombre
+        shutil.rmtree(ruta)
+
+        print(ruta)
+    except OSError as e:
+        print(f"Error:{ e.strerror}")
+        
+        
+    print("Se acaba de Borrar la subcategoria jajaja")
 
 
 
@@ -183,39 +271,19 @@ class Video(models.Model):
         ("caracas", 'Caracas'),
         ("jungla", 'Jungla'),
     ]
-    meses = [
-        #El primer campo es para bases de datos y el segundo para visualizar
-        ("enero", 'Enero'),
-        ("febrero", 'Febrero'),
-        ("marzo", 'Marzo'),
-        ("abril", 'Abril'),
-        ("mayo", 'Mayo'),
-        ("junio", 'Junio'),
-        ("julio", 'Julio'),
-        ("agosto", 'Agosto'),
-        ("septiembre", 'Septiembre'),
-        ("octubre", 'Octubre'),
-        ("noviembre", 'Noviembre'),
-        ("diciembre", 'Diciembre'),
-
-    ]
 
 
     nombre = models.CharField(max_length=200, null=True, blank=True)
-    
     categoria = models.ForeignKey("Categoria", on_delete=models.CASCADE)
-    #categoria = models.CharField(    max_length=50,    choices=categorias,    default="zulia",)
-    
-    mes = models.CharField(
-        max_length=50,
-        choices=meses,
-        default="enero",
-    )
-
+    subcategoria = models.ForeignKey("Subcategoria", on_delete=models.CASCADE, null=True, blank=True)
     activo = models.BooleanField(default=True)
     video = models.FileField(upload_to='videos/')
 
-    db_table = 'Video'
+    class Meta:
+        verbose_name = "Video"
+        verbose_name_plural = "Videos"
+        db_table = 'video'
+
     def __str__(self):
         return self.nombre
 
@@ -235,12 +303,10 @@ class Video(models.Model):
         #print("prueba: ",self.video.name[:self.video.name.index('.')])
         
         self.nombre = self.video.name[:self.video.name.index('.')]#Guardamos el nombre del video
-        self.video.name = os.path.join(str(self.categoria),str(self.mes),self.video.name)#Guardamos la ruta
+        self.video.name = os.path.join(str(self.categoria),str(self.subcategoria),self.video.name)#Guardamos la ruta
         super(Video, self).save(*args, **kwargs)
 
-    class Meta:
-        verbose_name = "video"
-        verbose_name_plural = "Videos"
+    
 
 @receiver(post_save,sender=Video)
 def CrearVideo(sender,instance,**kwargs):
@@ -248,13 +314,34 @@ def CrearVideo(sender,instance,**kwargs):
     print("Se acaba de crear un video")
 
 
+#Funcion de señales en Django
 @receiver(pre_delete,sender=Video)
 def BorrarVideo(sender,instance,**kwargs):
 
     print(sender)
     print(instance)
     print(instance.video)
-    print(instance.video.name)
+
+
+    print(sender)
+    print(instance)
+    print("categoria: ",instance.categoria.nombre)
+    print("subcategoria: ",instance.nombre)
+
+
+    try:
+        #Para borrar el directorio y todo lo que haya dentro
+        #ruta = os.path.join(settings.MEDIA_ROOT)+"/videos/"+instance.categoria.nombre+"/"+instance.nombre
+        #shutil.rmtree(ruta)
+        pass
+        #print(ruta)
+    except OSError as e:
+
+        print(f"Error:{ e.strerror}")
+
+
+
+    #print(instance.video.nombre)
     #eliminando con la ruta correcta
     #print("RUTA: ",os.path.join(settings.MEDIA_ROOT+instance.video.name))
     #print("RUTA MEDIA_ROOT: ",settings.MEDIA_ROOT)
