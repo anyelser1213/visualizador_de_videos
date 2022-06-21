@@ -73,10 +73,10 @@ def videos_mes(categoriaAsig, mesAsig):
 @register.simple_tag
 def categoria_existe(categoria_nombre): # Only one argument.
     
-    print("AQUI ENTRAMOS SIEMPRE...")
+    
     respuesta = Categoria.objects.filter(nombre=categoria_nombre)
-    print("categoria: ",respuesta)
-    print("existe:",respuesta.exists())
+    #print("categoria: ",respuesta)
+    #print("existe:",respuesta.exists())
     #return Video.objects.all()
     return respuesta.exists()
 
@@ -86,22 +86,55 @@ def subcategoria_existe(categoria,subcategoria_nombre): # Only one argument.
     
     respuesta = Subcategoria.objects.filter(categoria=categoria,nombre=subcategoria_nombre)
     #respuesta1 = Video.objects.filter(categoria=categoria,mes=mes).exists()
-    print("Probando las coasas", respuesta)
-    print("Existe", respuesta.exists())
+    #print("Probando las coasas", respuesta)
+    #print("Existe", respuesta.exists())
     #return respuesta
     return respuesta.exists()
 
-@register.inclusion_tag('src/mes_videos.html')
-def videos_subcategoria(categoriaAsig, mesAsig):
+@register.inclusion_tag('src/subcategorias_videos.html')
+def videos_subcategoria(categoria_nombre, subcategoria_nombre):
 
-    print("La categoria insertada es: ", categoriaAsig," y el mes es: ",mesAsig)
+    print("La categoria insertada es: ", categoria_nombre," y el mes es: ",subcategoria_nombre)
     videos = Video.objects.all()
     #videos = Video.objects.filter(categoria=categoriaAsig,mes=mesAsig)
-    existen =videos.exists()
+    existen = False
     #print("Probando aqui:",videos," cantidad: ",videos.count())
+    archivos = [] #Creamos la lista
+    try:
+
+        ruta = os.path.join(settings.MEDIA_ROOT)+"/videos/"+categoria_nombre+"/"+subcategoria_nombre
+        print("La ruta es:",ruta)
+        archivos = os.listdir(ruta)
+        print(archivos)
+        print("tipo de dato: ",type(archivos))
+        print("cantidad de elementos: ",len(archivos))
+        existen = True if len(archivos)>0 else False
+        #dirname = os.path.dirname(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"+archivos[0])
+        
+        # Muestra el directorio del archivo
+        print("Booleano: ",existen)
+
+    except:
+
+        #os.path.exists es para saber si existe la ruta
+        print(os.path.exists(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"))
+        print("No existe la ruta aqui")
+
+
+
+
+
+
+
+
+
+
+
+
+
     return {
         'existe':existen,
-        'videos':videos
+        'videos':archivos
     }
 
 

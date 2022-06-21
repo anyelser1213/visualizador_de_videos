@@ -1,0 +1,10 @@
+
+
+
+{% if existe %}
+  {% for video in videos %}
+  <li ><a data-url={{video.video.url}} class="dropdown-item" href="#" onclick="VisualizarVideo(this)">{{video.nombre}}</a></li>
+
+  {% endfor %}
+{% endif%}
+
