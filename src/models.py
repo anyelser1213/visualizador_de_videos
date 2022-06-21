@@ -203,13 +203,7 @@ def BorrarCategoria(sender,instance,**kwargs):
         print(ruta)
     except OSError as e:
         print(f"Error:{ e.strerror}")
-    #eliminando con la ruta correcta
-    #print("RUTA: ",os.path.join(settings.MEDIA_ROOT+instance.video.name))
-    #print("RUTA MEDIA_ROOT: ",settings.MEDIA_ROOT)
-    #os.remove(os.path.join(settings.MEDIA_ROOT+instance.video.name))
-    #pathExt = r"/media/videos/zulia/enero/2021-03-22_21-01-22.mkv"
-    #os.remove(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+instance.categoria.nombre+"/"+instance.nombre)
-    #os.remove(os.path.join(settings.MEDIA_ROOT+"\\media\\videos\\zulia\\enero\\2021-03-22_21-01-22.mkv"))
+
 
     print("Se acaba de Borrar una Categoria jajaja")
 
@@ -228,7 +222,7 @@ class Subcategoria(models.Model):
         db_table = 'subcategoria'
 
     def __str__(self):
-        return self.nombre
+        return self.categoria.nombre+" ----- "+self.nombre
 
 
 
@@ -240,15 +234,6 @@ class Subcategoria(models.Model):
 
         os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.categoria.nombre+"/"+self.nombre)
         
-        #self.video.name = self.categoria,"/",self.mes
-        #aux = os.path.join(self.categoria,self.mes,self.video.name)
-        #print(aux)
-        #self.video.name = aux
-
-
-        #indice_final = 
-        #print(self.video.name)
-        #print("prueba: ",self.video.name[:self.video.name.index('.')])
         
         super(Subcategoria, self).save(*args, **kwargs)
 
@@ -271,14 +256,8 @@ def BorrarSubacategoria(sender,instance,**kwargs):
         print(ruta)
     except OSError as e:
         print(f"Error:{ e.strerror}")
-    #eliminando con la ruta correcta
-    #print("RUTA: ",os.path.join(settings.MEDIA_ROOT+instance.video.name))
-    #print("RUTA MEDIA_ROOT: ",settings.MEDIA_ROOT)
-    #os.remove(os.path.join(settings.MEDIA_ROOT+instance.video.name))
-    #pathExt = r"/media/videos/zulia/enero/2021-03-22_21-01-22.mkv"
-    #os.remove(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+instance.categoria.nombre+"/"+instance.nombre)
-    #os.remove(os.path.join(settings.MEDIA_ROOT+"\\media\\videos\\zulia\\enero\\2021-03-22_21-01-22.mkv"))
-
+        
+        
     print("Se acaba de Borrar la subcategoria jajaja")
 
 
@@ -357,7 +336,7 @@ def BorrarVideo(sender,instance,**kwargs):
         pass
         #print(ruta)
     except OSError as e:
-        
+
         print(f"Error:{ e.strerror}")
 
 
