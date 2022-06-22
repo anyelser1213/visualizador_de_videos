@@ -1,9 +1,11 @@
-
+{% load trabajar_string %}
 
 {% if existe %}
 
   {% for video in videos %}
-  <li ><a data-url="{{ruta}}{{video}}" class="dropdown-item" href="#" onclick="VisualizarVideo(this)">{{video}}</a></li>
+  
+  {% quitar_extension video as videoSinExtension %}
+  <li ><a data-url="{{ruta}}{{video}}" class="dropdown-item" href="#" onclick="VisualizarVideo(this)">{{videoSinExtension}}</a></li>
 
   {% endfor %}
 {% endif%}
