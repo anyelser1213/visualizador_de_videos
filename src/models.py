@@ -198,6 +198,8 @@ def BorrarCategoria(sender,instance,**kwargs):
     try:
         #Para borrar el directorio y todo lo que haya dentro
         ruta = os.path.join(settings.MEDIA_ROOT)+"/videos/"+instance.nombre
+        videos = Video.objects.filter(categoria=instance.id) #Aqui borramos todos los videos de esta categoria
+        videos.delete()
         shutil.rmtree(ruta)
 
         print(ruta)
@@ -222,7 +224,8 @@ class Subcategoria(models.Model):
         db_table = 'subcategoria'
 
     def __str__(self):
-        return self.categoria.nombre+" ----- "+self.nombre
+        #return self.categoria.nombre+" ----- "+self.nombre
+        return self.nombre
 
 
 
@@ -251,6 +254,8 @@ def BorrarSubacategoria(sender,instance,**kwargs):
     try:
         #Para borrar el directorio y todo lo que haya dentro
         ruta = os.path.join(settings.MEDIA_ROOT)+"/videos/"+instance.categoria.nombre+"/"+instance.nombre
+        videos = Video.objects.filter(subcategoria=instance.id) #Aqui borramos todos los videos de esta subcategoria
+        videos.delete()
         shutil.rmtree(ruta)
 
         print(ruta)
@@ -302,7 +307,7 @@ class Video(models.Model):
         #print(self.video.name)
         #print("prueba: ",self.video.name[:self.video.name.index('.')])
         
-        self.nombre = self.video.name[:self.video.name.index('.')]#Guardamos el nombre del video
+        self.nombre = self.video.name #[:self.video.name.index('.')] #Guardamos el nombre del video
         self.video.name = os.path.join(str(self.categoria),str(self.subcategoria),self.video.name)#Guardamos la ruta
         super(Video, self).save(*args, **kwargs)
 
@@ -318,37 +323,28 @@ def CrearVideo(sender,instance,**kwargs):
 @receiver(pre_delete,sender=Video)
 def BorrarVideo(sender,instance,**kwargs):
 
-    print(sender)
-    print(instance)
-    print(instance.video)
 
 
-    print(sender)
-    print(instance)
+    #print(sender)
+    #print(instance)
     print("categoria: ",instance.categoria.nombre)
-    print("subcategoria: ",instance.nombre)
+    print("subcategoria: ",instance.subcategoria.nombre)
+    print("elemento video: ",instance.nombre)
 
 
     try:
         #Para borrar el directorio y todo lo que haya dentro
-        #ruta = os.path.join(settings.MEDIA_ROOT)+"/videos/"+instance.categoria.nombre+"/"+instance.nombre
-        #shutil.rmtree(ruta)
-        pass
+        archivo = instance.nombre
+        ruta = os.path.join(settings.MEDIA_ROOT,instance.video.name)
+        #ruta = os.path.join(settings.MEDIA_ROOT)+"videos"+instance.categoria.nombre+"/"+instance.subcategoria.nombre+"\\"+instance.nombre
+        
+        os.remove(ruta) #Con esto borramos el archivo
         #print(ruta)
     except OSError as e:
 
         print(f"Error:{ e.strerror}")
 
 
-
-    #print(instance.video.nombre)
-    #eliminando con la ruta correcta
-    #print("RUTA: ",os.path.join(settings.MEDIA_ROOT+instance.video.name))
-    #print("RUTA MEDIA_ROOT: ",settings.MEDIA_ROOT)
-    #os.remove(os.path.join(settings.MEDIA_ROOT+instance.video.name))
-    #pathExt = r"/media/videos/zulia/enero/2021-03-22_21-01-22.mkv"
-    #os.remove(os.path.join(settings.MEDIA_ROOT))
-    #os.remove(os.path.join(settings.MEDIA_ROOT+"\\media\\videos\\zulia\\enero\\2021-03-22_21-01-22.mkv"))
 
     print("Se acaba de Borrar el video")
 

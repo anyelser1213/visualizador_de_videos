@@ -6,9 +6,9 @@ from .models import *
 
 
 #Con esto modificamos los titulos en el admin de django
-admin.site.site_header = 'Nombre de mi sitio'
-admin.site.index_title = 'Panel de control de mi sitio'
-admin.site.site_title = 'Titulo en la pestaña del navegador'
+admin.site.site_header = 'Visualizador de videos'
+admin.site.index_title = 'Panel de control del visualizador de videos'
+admin.site.site_title = 'Visualizador de videos'
 
 class UserAdmin(BaseUserAdmin):
     
@@ -17,10 +17,10 @@ class UserAdmin(BaseUserAdmin):
     #Aqui es cuando se va a editar
     fieldsets = (
         #Aqui es para editar
-        ("Informacion Esencial", {'fields': ('username', 'password','rol')}),
+        ("Informacion Esencial", {'fields': ('username', 'password')}),
         ("Permisologia", {
             'classes': ('wide',),
-            'fields': ('is_superuser','admin','groups','user_permissions'),
+            'fields': ('is_superuser','admin','activo','groups','user_permissions'),
         }),
     )
 
@@ -37,25 +37,51 @@ class UserAdmin(BaseUserAdmin):
         }),
         ("Permisologia", {
             'classes': ('wide',),
-            'fields': ('groups','user_permissions'),
+            'fields': ('groups','user_permissions',),
         }),
     )
 
 
     #Para indicarle al admin que campos queremos mostrar
-    list_display = ('username', 'email','is_superuser','admin')
+    list_display = ('username', 'email','is_superuser','admin','activo')
     #list_display = ('username', 'email','is_superuser','admin','rol','plan_elegido')
-    list_filter = ('username','email')
+    list_filter = ('username','email','activo')
     
     #Para especificar que campos van a efectuar la busqueda
     search_fields = ('username', 'nombres', 'apellidos', 'email')
     filter_horizontal = ()
 
 
+
+class CategoriaAdmin(admin.ModelAdmin):
+    #readonly_fields = ('categoria', 'nombre') #Si lo colocas no se podra agregar nada
+    list_display = ('nombre', 'activo',)
+    ordering = ('nombre',)
+    #date_hierarchy = 'created' #Sirve para ordenar por fecha de creacion
+
+
+class SubcategoriaAdmin(admin.ModelAdmin):
+    #readonly_fields = ('categoria', 'nombre') #Si lo colocas no se podra agregar nada
+    list_display = ('categoria', 'nombre', 'activo',)
+    fields = ('categoria','nombre','activo',)
+    ordering = ('nombre',)
+
+class VideoAdmin(admin.ModelAdmin):
+    #readonly_fields = ('categoria', 'nombre') #Si lo colocas no se podra agregar nada
+    list_display = ('categoria','subcategoria', 'nombre', 'activo','video')
+
+    fields = ('categoria', 'subcategoria', 'activo', 'video') #Campos que se van a mostrar al crear un nuevo video
+    ordering = ('nombre',)
+
+
+
+
 #Aqui registramos los elementos para que aparezcan en el admin de django
 admin.site.register(Usuarios, UserAdmin)
 admin.site.register(Permission)
 
-admin.site.register(Categoria)
-admin.site.register(Subcategoria)
-admin.site.register(Video)
+
+#Modelos del proyecto
+admin.site.register(Categoria, CategoriaAdmin)
+admin.site.register(Subcategoria,SubcategoriaAdmin)
+admin.site.register(Video,VideoAdmin)
