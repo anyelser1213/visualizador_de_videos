@@ -6,9 +6,9 @@ from .models import *
 
 
 #Con esto modificamos los titulos en el admin de django
-admin.site.site_header = 'Nombre de mi sitio'
-admin.site.index_title = 'Panel de control de mi sitio'
-admin.site.site_title = 'Titulo en la pestaña del navegador'
+admin.site.site_header = 'Visualizador de videos'
+admin.site.index_title = 'Panel de control del visualizador de videos'
+admin.site.site_title = 'Visualizador de videos'
 
 class UserAdmin(BaseUserAdmin):
     
@@ -52,10 +52,32 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
+
+class CategoriaAdmin(admin.ModelAdmin):
+    #readonly_fields = ('categoria', 'nombre') #Si lo colocas no se podra agregar nada
+    list_display = ('nombre', 'activo',)
+    ordering = ('nombre',)
+
+
+class SubcategoriaAdmin(admin.ModelAdmin):
+    #readonly_fields = ('categoria', 'nombre') #Si lo colocas no se podra agregar nada
+    list_display = ('categoria', 'nombre', 'activo',)
+    ordering = ('nombre',)
+
+class VideoAdmin(admin.ModelAdmin):
+    #readonly_fields = ('categoria', 'nombre') #Si lo colocas no se podra agregar nada
+    list_display = ('categoria','subcategoria', 'nombre', 'activo','video')
+    ordering = ('nombre',)
+
+
+
+
 #Aqui registramos los elementos para que aparezcan en el admin de django
 admin.site.register(Usuarios, UserAdmin)
 admin.site.register(Permission)
 
-admin.site.register(Categoria)
-admin.site.register(Subcategoria)
-admin.site.register(Video)
+
+#Modelos del proyecto
+admin.site.register(Categoria, CategoriaAdmin)
+admin.site.register(Subcategoria,SubcategoriaAdmin)
+admin.site.register(Video,VideoAdmin)

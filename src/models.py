@@ -222,7 +222,8 @@ class Subcategoria(models.Model):
         db_table = 'subcategoria'
 
     def __str__(self):
-        return self.categoria.nombre+" ----- "+self.nombre
+        #return self.categoria.nombre+" ----- "+self.nombre
+        return self.nombre
 
 
 
