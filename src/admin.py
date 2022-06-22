@@ -17,7 +17,7 @@ class UserAdmin(BaseUserAdmin):
     #Aqui es cuando se va a editar
     fieldsets = (
         #Aqui es para editar
-        ("Informacion Esencial", {'fields': ('username', 'password','rol')}),
+        ("Informacion Esencial", {'fields': ('username', 'password')}),
         ("Permisologia", {
             'classes': ('wide',),
             'fields': ('is_superuser','admin','groups','user_permissions'),
@@ -62,11 +62,14 @@ class CategoriaAdmin(admin.ModelAdmin):
 class SubcategoriaAdmin(admin.ModelAdmin):
     #readonly_fields = ('categoria', 'nombre') #Si lo colocas no se podra agregar nada
     list_display = ('categoria', 'nombre', 'activo',)
+    fields = ('categoria','nombre','activo',)
     ordering = ('nombre',)
 
 class VideoAdmin(admin.ModelAdmin):
     #readonly_fields = ('categoria', 'nombre') #Si lo colocas no se podra agregar nada
     list_display = ('categoria','subcategoria', 'nombre', 'activo','video')
+
+    fields = ('categoria', 'subcategoria', 'activo', 'video') #Campos que se van a mostrar al crear un nuevo video
     ordering = ('nombre',)
 
 
