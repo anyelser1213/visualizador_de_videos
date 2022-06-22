@@ -20,7 +20,7 @@ class UserAdmin(BaseUserAdmin):
         ("Informacion Esencial", {'fields': ('username', 'password')}),
         ("Permisologia", {
             'classes': ('wide',),
-            'fields': ('is_superuser','admin','groups','user_permissions'),
+            'fields': ('is_superuser','admin','activo','groups','user_permissions'),
         }),
     )
 
@@ -37,7 +37,7 @@ class UserAdmin(BaseUserAdmin):
         }),
         ("Permisologia", {
             'classes': ('wide',),
-            'fields': ('groups','user_permissions'),
+            'fields': ('groups','user_permissions',),
         }),
     )
 
@@ -45,7 +45,7 @@ class UserAdmin(BaseUserAdmin):
     #Para indicarle al admin que campos queremos mostrar
     list_display = ('username', 'email','is_superuser','admin')
     #list_display = ('username', 'email','is_superuser','admin','rol','plan_elegido')
-    list_filter = ('username','email')
+    list_filter = ('username','email','activo')
     
     #Para especificar que campos van a efectuar la busqueda
     search_fields = ('username', 'nombres', 'apellidos', 'email')
@@ -57,6 +57,7 @@ class CategoriaAdmin(admin.ModelAdmin):
     #readonly_fields = ('categoria', 'nombre') #Si lo colocas no se podra agregar nada
     list_display = ('nombre', 'activo',)
     ordering = ('nombre',)
+    #date_hierarchy = 'created' #Sirve para ordenar por fecha de creacion
 
 
 class SubcategoriaAdmin(admin.ModelAdmin):
