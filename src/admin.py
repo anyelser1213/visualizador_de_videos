@@ -43,7 +43,7 @@ class UserAdmin(BaseUserAdmin):
 
 
     #Para indicarle al admin que campos queremos mostrar
-    list_display = ('username', 'email','is_superuser','admin')
+    list_display = ('username', 'email','is_superuser','admin','activo')
     #list_display = ('username', 'email','is_superuser','admin','rol','plan_elegido')
     list_filter = ('username','email','activo')
     
