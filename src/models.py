@@ -84,7 +84,7 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
     apellidos = models.CharField("Apellidos",max_length=200,blank=True, null=True) 
     email = models.EmailField("Correo Electronico",max_length=150, unique=True)
     #empresa = models.ForeignKey(Empresa,on_delete=models.CASCADE,blank=True, null=True)
-    activo = models.BooleanField(default=True)   
+    activo = models.BooleanField(default=True)#Para poder ingresar al sistema  
     is_superuser = models.BooleanField(default=False)#Este es superusuario
     admin = models.BooleanField(default=False)#Para poder ingresar al admin de django
     cedula = models.IntegerField(default=0,blank=True, null=True)
@@ -119,7 +119,9 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
     @property
     def is_staff(self):
          # "Is the user a member of staff?"
-         return self.admin
+         if self.activo:
+            return self.admin
+         return False
      
 
     def has_module_perms(self, app_label):

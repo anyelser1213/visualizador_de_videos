@@ -94,7 +94,7 @@ def subcategoria_existe(categoria,subcategoria_nombre): # Only one argument.
 @register.inclusion_tag('src/subcategorias_videos.html')
 def videos_subcategoria(categoria_nombre, subcategoria_nombre):
 
-    print("La categoria insertada es: ", categoria_nombre," y el mes es: ",subcategoria_nombre)
+    #print("La categoria insertada es: ", categoria_nombre," y el mes es: ",subcategoria_nombre)
     videos = Video.objects.all()
     #videos = Video.objects.filter(categoria=categoriaAsig,mes=mesAsig)
     existen = False
@@ -103,22 +103,23 @@ def videos_subcategoria(categoria_nombre, subcategoria_nombre):
     try:
 
         ruta = os.path.join(settings.MEDIA_ROOT)+"/videos/"+categoria_nombre+"/"+subcategoria_nombre
-        print("La ruta es:",ruta)
+        #print("La ruta es:",ruta)
         archivos = os.listdir(ruta)
-        print(archivos)
-        print("tipo de dato: ",type(archivos))
-        print("cantidad de elementos: ",len(archivos))
+        #print(archivos)
+        #print("tipo de dato: ",type(archivos))
+        #print("cantidad de elementos: ",len(archivos))
         existen = True if len(archivos)>0 else False
         #dirname = os.path.dirname(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"+archivos[0])
         
         # Muestra el directorio del archivo
-        print("Booleano: ",existen)
+        #print("Booleano: ",existen)
 
     except:
 
+        pass
         #os.path.exists es para saber si existe la ruta
-        print(os.path.exists(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"))
-        print("No existe la ruta aqui")
+        #print(os.path.exists(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"))
+        #print("No existe la ruta aqui")
 
 
 

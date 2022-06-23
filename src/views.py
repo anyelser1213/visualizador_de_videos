@@ -24,8 +24,7 @@ class Login(LoginView):
         if request.user.is_authenticated:
 
             print("Estas autenticado y vas al INDEX.HTML")
-            print(request.user)
-            return redirect("src:index")
+            
 
         else:
             print(request.user)
@@ -43,9 +42,6 @@ class Login(LoginView):
 
 
 
-        #return render(request, self.template_name, {'form': form})
-
-
 
 class Logout(LogoutView):
 
@@ -57,6 +53,9 @@ class Logout(LogoutView):
         context['informacion'] = "Hola..."
         return context
     
+
+
+
 class Index(TemplateView):
 
     template_name = "src/index2.html"
@@ -70,6 +69,15 @@ class Index(TemplateView):
         else:
 
             print("Estas autenticado GENIAL")
+            print("usuario: ",request.user)
+            print("usuario activo: ",request.user.activo)
+             # the password verified for the user
+            if request.user.activo:   
+                print("User is valid, active and authenticated")
+            else:
+                print("The password is valid, but the account has been disabled!")
+                return redirect("src:logout")
+            #return redirect("src:index")
             #print("Usuario ",request.user)
 
             #Esto es algo que podria funcionar en algun momento
@@ -89,11 +97,11 @@ class Index(TemplateView):
         context['subcategorias'] = Subcategoria.objects.filter(activo=True)
 
         #miVideo = Video.objects.get(pk=1)
-        print("RUTA: ",os.path.join(settings.MEDIA_ROOT))
+        #print("RUTA: ",os.path.join(settings.MEDIA_ROOT))
         #print("RUTA MEDIA_ROOT: ",miVideo.video)
         #pathExt = miVideo.video.name
         #print("SIN LA R: ",pathExt)
-        print(os.name)
+        #print(os.name)
         
 
         # Path(prueba)
@@ -104,15 +112,16 @@ class Index(TemplateView):
         try:
 
             archivos = os.listdir(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/")
-            print(archivos[0])
+            #print(archivos[0])
             dirname = os.path.dirname(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"+archivos[0])
         
             # Muestra el directorio del archivo
-            print(dirname)
+            #print(dirname)
         except:
+            pass
             #os.path.exists es para saber si existe la ruta
-            print(os.path.exists(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"))
-            print("No existe la ruta aqui")
+            #print(os.path.exists(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"))
+            #print("No existe la ruta aqui")
             #dirname = os.path.dirname(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"+archivos[0])
         
         # Muestra el directorio del archivo
@@ -126,17 +135,6 @@ class Index(TemplateView):
         #os.rmdir(os.path.join(settings.MEDIA_ROOT+r"/videos"))
         
 
-        """
-        #Aqui dependiendo del tipo de usuario se ven los departamentos
-        if self.request.user.rol == "master":
-            pass
-            context['departamentos'] = Departamento.objects.all()
-            context['departamentos'] = Departamento.objects.filter(creado_por=self.request.user)
-        else:
-        
-            context['departamentos'] = Departamento.objects.filter(creado_por=self.request.user)
-            print(context['departamentos'])
-        """
         
         context['usuario'] = self.request.user
         return context
