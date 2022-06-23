@@ -1,4 +1,7 @@
-from ast import Try
+
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from .models import Video
 from django.shortcuts import redirect, render
 
@@ -64,18 +67,20 @@ class Index(TemplateView):
 
         if request.user.is_anonymous:
             print("No estas autenticado, eres un usuario anonimo")
-            return redirect("/login")
+            return redirect("src:login")
 
         else:
 
             print("Estas autenticado GENIAL")
-            print("usuario: ",request.user)
-            print("usuario activo: ",request.user.activo)
-             # the password verified for the user
+            #print("usuario: ",request.user)
+            #print("usuario activo: ",request.user.activo)
+            
+            #Aqui verificamos si el usuario esta activo para que ingrese
             if request.user.activo:   
-                print("User is valid, active and authenticated")
+                print("Usuario activo y validado")
             else:
                 print("The password is valid, but the account has been disabled!")
+                messages.add_message(request, messages.INFO, "Usuario Inactivo")
                 return redirect("src:logout")
             #return redirect("src:index")
             #print("Usuario ",request.user)
