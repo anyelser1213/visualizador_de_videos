@@ -2,6 +2,12 @@ import os
 import shutil #libreria para borrar carpetas esten o no llenas
 from django.conf import settings
 from django.db import models
+
+#Estos dos modelos son para crear permisos personalizados
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
+
+
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_delete, post_delete
@@ -158,9 +164,23 @@ class Categoria(models.Model):
     activo = models.BooleanField(default=True)
 
     class Meta:
+        
         verbose_name = "Categoria"
         verbose_name_plural = "Categorias"
         db_table = 'categoria'
+
+        permissions = [
+            #(Lo que se guarda en bases de datos, lo que se ve al usuario)
+            #Permisos para master y gerente
+            
+            #("ver_categoria", "ver_categoria"),
+            
+            
+            
+            
+            
+            
+        ]#Fin de los permisos
     
     def __str__(self):
         return self.nombre
@@ -183,6 +203,22 @@ class Categoria(models.Model):
         #indice_final = 
         #print(self.video.name)
         #print("prueba: ",self.video.name[:self.video.name.index('.')])
+
+        #Permisos
+        content_type = ContentType.objects.get_for_model(Categoria)
+        permission = Permission.objects.create(
+            codename='ver_'+self.nombre,
+            name='ver_'+self.nombre,
+            content_type=content_type,
+        )
+        permission = Permission.objects.create(
+            codename='add_'+self.nombre,
+            name='add_'+self.nombre,
+            content_type=content_type,
+        )
+
+
+
         
         super(Categoria, self).save(*args, **kwargs)
 

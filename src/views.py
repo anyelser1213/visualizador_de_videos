@@ -72,8 +72,8 @@ class Index(TemplateView):
         else:
 
             print("Estas autenticado GENIAL")
-            #print("usuario: ",request.user)
-            #print("usuario activo: ",request.user.activo)
+            print("usuario: ",request.user)
+            #print("usuario permisos: ",request.user.get_all_permissions())
             
             #Aqui verificamos si el usuario esta activo para que ingrese
             if request.user.activo:   
