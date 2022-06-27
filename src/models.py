@@ -193,8 +193,29 @@ class Categoria(models.Model):
 
         print("Probando con categorias") 
         print(self.nombre)
-        os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.nombre)
-        
+        existe = Categoria.objects.filter(nombre=self.nombre)
+        if existe.count()>0:
+            
+            super(Categoria, self).save(*args, **kwargs)
+        else:
+            print("No existe nada...")
+            os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.categoria.nombre+"/"+self.nombre)
+            
+            #Permisos
+            content_type = ContentType.objects.get_for_model(Categoria)
+            permission = Permission.objects.create(
+                codename='ver_'+self.nombre,
+                name='ver_'+self.nombre,
+                content_type=content_type,
+            )
+            permission = Permission.objects.create(
+                codename='add_'+self.nombre,
+                name='add_'+self.nombre,
+                content_type=content_type,
+            )
+            
+            super(Categoria, self).save(*args, **kwargs)
+
         #self.video.name = self.categoria,"/",self.mes
         #aux = os.path.join(self.categoria,self.mes,self.video.name)
         #print(aux)
@@ -205,23 +226,9 @@ class Categoria(models.Model):
         #print(self.video.name)
         #print("prueba: ",self.video.name[:self.video.name.index('.')])
 
-        #Permisos
-        content_type = ContentType.objects.get_for_model(Categoria)
-        permission = Permission.objects.create(
-            codename='ver_'+self.nombre,
-            name='ver_'+self.nombre,
-            content_type=content_type,
-        )
-        permission = Permission.objects.create(
-            codename='add_'+self.nombre,
-            name='add_'+self.nombre,
-            content_type=content_type,
-        )
-
-
-
         
-        super(Categoria, self).save(*args, **kwargs)
+
+
 
 
 

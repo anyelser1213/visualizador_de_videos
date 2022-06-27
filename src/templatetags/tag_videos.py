@@ -74,7 +74,7 @@ def videos_mes(categoriaAsig, mesAsig):
 def categoria_existe(categoria_nombre): # Only one argument.
     
     
-    respuesta = Categoria.objects.filter(nombre=categoria_nombre)
+    respuesta = Categoria.objects.filter(nombre=categoria_nombre,activo=True)
     #print("categoria: ",respuesta)
 
     rutaCategoria = os.path.join(settings.MEDIA_ROOT)+"/videos/"+categoria_nombre
