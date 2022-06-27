@@ -62,8 +62,8 @@ class CategoriaAdmin(admin.ModelAdmin):
 
 class SubcategoriaAdmin(admin.ModelAdmin):
     #readonly_fields = ('categoria', 'nombre') #Si lo colocas no se podra agregar nada
-    list_display = ('categoria', 'nombre', 'activo',)
-    fields = ('categoria','nombre','activo',)
+    list_display = ( 'nombre','categoria', 'activo',)
+    fields = ( 'nombre','categoria','activo',)
     ordering = ('nombre',)
 
 class VideoAdmin(admin.ModelAdmin):

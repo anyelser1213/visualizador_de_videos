@@ -80,13 +80,28 @@ def categoria_existe(categoria_nombre): # Only one argument.
     rutaCategoria = os.path.join(settings.MEDIA_ROOT)+"/videos/"+categoria_nombre
     #print("La carpeta de categoria tiene:",rutaCategoria)
     archivosDeCarpetaCategoria = os.listdir(rutaCategoria)
+
+    ####### AQUI VA LOGICA NUEVA ########
+    Q1 = Subcategoria.objects.none()
+    for subcategoriaPRUEBA in range(len(archivosDeCarpetaCategoria)):
+        #print(subcategoriaPRUEBA,": ",archivosDeCarpetaCategoria[subcategoriaPRUEBA])
+        
+        #Con esto concatenamos queryset
+        Q1 |= Subcategoria.objects.filter(nombre=str(archivosDeCarpetaCategoria[subcategoriaPRUEBA]),activo=True)
+        
+        #print(Q1)
+        #Q1.union(Q1,Q2)
+    #####################################
+
+
+    #print("lo que quedo: ",Q1)
     #print(archivosDeCarpetaCategoria)
     existen = False
 
-    for subcategoria in range(len(archivosDeCarpetaCategoria)):
+    for subcategoria in Q1:
         
         #print(subcategoria)
-        rutaSubCategoria = os.path.join(settings.MEDIA_ROOT)+"/videos/"+categoria_nombre+"/"+archivosDeCarpetaCategoria[subcategoria]
+        rutaSubCategoria = os.path.join(settings.MEDIA_ROOT)+"/videos/"+categoria_nombre+"/"+str(subcategoria.nombre)
         #print("La carpeta de subcategoria tiene:",rutaSubCategoria)
         archivosDeCarpetaSubCategoria = os.listdir(rutaSubCategoria)
 
@@ -110,9 +125,9 @@ def categoria_existe(categoria_nombre): # Only one argument.
 
 
 
-    print("existe:",respuesta.exists())
+    #print("existe:",respuesta.exists())
 
-    print("\n\n")
+    print("\n")
     #return Video.objects.all()
     return existen
 
@@ -120,19 +135,19 @@ def categoria_existe(categoria_nombre): # Only one argument.
 @register.simple_tag
 def subcategoria_existe(categoria,subcategoria_nombre): # Only one argument.
 
-    print("\n\n")
+    #print("\n\n")
     categoriaElegida = Categoria.objects.get(pk=categoria)
-    respuesta = Subcategoria.objects.filter(categoria=categoria,nombre=subcategoria_nombre)
+    respuesta = Subcategoria.objects.filter(categoria=categoria,nombre=subcategoria_nombre,activo=True)
     #respuesta1 = Video.objects.filter(categoria=categoria,mes=mes).exists()
-    print("Categoria", categoriaElegida.nombre)
-    print("SubCategoria", subcategoria_nombre)
+    #print("Categoria", categoriaElegida.nombre)
+    #print("SubCategoria", subcategoria_nombre)
 
     try:
 
         rutaSubCategoria = os.path.join(settings.MEDIA_ROOT)+"/videos/"+categoriaElegida.nombre+"/"+subcategoria_nombre
-        print("La carpeta de Subcategoria tiene:",rutaSubCategoria)
+        #print("La carpeta de Subcategoria tiene:",rutaSubCategoria)
         archivosDeCarpetaSubCategoria = os.listdir(rutaSubCategoria)
-        print(archivosDeCarpetaSubCategoria)
+        #print(archivosDeCarpetaSubCategoria)
 
         existen = True if len(archivosDeCarpetaSubCategoria)>0 else False
         return existen

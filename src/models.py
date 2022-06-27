@@ -1,5 +1,6 @@
 import os
-import shutil #libreria para borrar carpetas esten o no llenas
+import shutil
+from unicodedata import category #libreria para borrar carpetas esten o no llenas
 from django.conf import settings
 from django.db import models
 
@@ -272,11 +273,14 @@ class Subcategoria(models.Model):
 
         print("Probando con subcategorias") 
         print(self.nombre)
-
-        os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.categoria.nombre+"/"+self.nombre)
-        
-        
-        super(Subcategoria, self).save(*args, **kwargs)
+        existe = Subcategoria.objects.filter(categoria=self.categoria,nombre=self.nombre)
+        if existe.count()>0:
+            
+            super(Subcategoria, self).save(*args, **kwargs)
+        else:
+            print("No existe nada...")
+            os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.categoria.nombre+"/"+self.nombre)
+            super(Subcategoria, self).save(*args, **kwargs)
 
 
 #Funcion de señales en Django
