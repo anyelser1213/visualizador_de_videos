@@ -191,28 +191,29 @@ class Categoria(models.Model):
     #Editando los metodos
     def save(self, *args, **kwargs): 
 
-        print("Probando con categorias") 
-        print(self.nombre)
+        
         existe = Categoria.objects.filter(nombre=self.nombre)
         if existe.count()>0:
-            
+            print("Modificando: ",self.nombre) 
             super(Categoria, self).save(*args, **kwargs)
         else:
-            print("No existe nada...")
-            os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.categoria.nombre+"/"+self.nombre)
+            print("Creando nueva categoria...",self.nombre)
+            os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.nombre)
             
             #Permisos
             content_type = ContentType.objects.get_for_model(Categoria)
-            permission = Permission.objects.create(
+            permisos = Permission.objects.create(
                 codename='ver_'+self.nombre,
                 name='ver_'+self.nombre,
                 content_type=content_type,
             )
-            permission = Permission.objects.create(
-                codename='add_'+self.nombre,
-                name='add_'+self.nombre,
-                content_type=content_type,
-            )
+            #permisos = Permission.objects.create(
+            #    codename='add_'+self.nombre,
+            #    name='add_'+self.nombre,
+            #    content_type=content_type,
+            #)
+
+            print("Se agregaron los permisos: ", permisos)
             
             super(Categoria, self).save(*args, **kwargs)
 
