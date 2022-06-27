@@ -73,7 +73,8 @@ class Index(TemplateView):
 
             print("Estas autenticado GENIAL")
             print("usuario: ",request.user)
-            #print("usuario permisos: ",request.user.get_all_permissions())
+            usuarios = Usuarios.objects.get(username="juan")
+            print("usuario ",usuarios.username," permisos: ",usuarios.get_all_permissions())
             
             #Aqui verificamos si el usuario esta activo para que ingrese
             if request.user.activo:   
@@ -100,6 +101,7 @@ class Index(TemplateView):
         context['informacion'] = "Hola..."
         context['categorias'] = Categoria.objects.filter(activo=True)
         context['subcategorias'] = Subcategoria.objects.filter(activo=True)
+        context['userEjemplo'] = Usuarios.objects.get(username="juan")
 
         #miVideo = Video.objects.get(pk=1)
         #print("RUTA: ",os.path.join(settings.MEDIA_ROOT))

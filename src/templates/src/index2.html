@@ -86,7 +86,15 @@
 
     <br><br><br>
 
-
+    <h1>{{userEjemplo}}</h1>
+    <h1>{{perms.ver_zaleia}}</h1>
+    <h1>{{userEjemplo.perms.src.ver_zaleia}}</h1>
+    
+    {% if userEjemplo.perms.src.ver_zaleia %}
+      <h1>
+        Para comprobar si el usuario tiene un permiso en específico
+      </h1>
+    {% endif %}
     <div class="row">
       <div class="col-sm-2 border bg-dark">
 
@@ -99,6 +107,8 @@
                         <!-- ============= COMPONENT ============== -->
                         <nav class="sidebar card py-2 mb-4 text-white bg-dark">
                         <ul class="nav flex-column" id="nav_accordion">
+
+                          
 
                           {% for categoria in categorias %}
 
