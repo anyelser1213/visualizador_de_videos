@@ -86,9 +86,12 @@
 
     <br><br><br>
 
-    <h1>{{userEjemplo}}</h1>
+    {% if perms.src.ver_zulia %}
+    EL USUARIO TIENE EL PERMISO ZULIA {{request.user}}
+    {% else %}
+    EL USUARIO NO TIENE PERMISO ZULIA {{user}}
+    {% endif %}
     <h1>{{perms.ver_zaleia}}</h1>
-    <h1>{{userEjemplo.perms.src.ver_zaleia}}</h1>
     
     {% if userEjemplo.perms.src.ver_zaleia %}
       <h1>
@@ -113,7 +116,7 @@
                           {% for categoria in categorias %}
 
                             
-                            {% categoria_existe categoria.nombre as respuesta %}
+                            {% categoria_existe categoria.nombre request.user as respuesta %}
                             {% if respuesta %}
 
                                   <li class="nav-item has-submenu">

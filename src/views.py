@@ -73,14 +73,15 @@ class Index(TemplateView):
 
             print("Estas autenticado GENIAL")
             print("usuario: ",request.user)
-            usuarios = Usuarios.objects.get(username="juan")
-            print("usuario ",usuarios.username," permisos: ",usuarios.get_all_permissions())
+            print("usuario permisos: ",request.user.get_all_permissions())
+            print(request.user.has_perm('src.ver_zulia'))
+            
             
             #Aqui verificamos si el usuario esta activo para que ingrese
             if request.user.activo:   
                 print("Usuario activo y validado")
             else:
-                print("The password is valid, but the account has been disabled!")
+                print("El usuario no esta activo")
                 messages.add_message(request, messages.INFO, "Usuario Inactivo")
                 return redirect("src:logout")
             #return redirect("src:index")
