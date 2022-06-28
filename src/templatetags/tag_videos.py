@@ -71,18 +71,11 @@ def videos_mes(categoriaAsig, mesAsig):
 ###################################################
 
 @register.simple_tag
-def categoria_existe(categoria_nombre,usuario): # Only one argument.
+def categoria_existe(categoria_nombre): # Only one argument.
     
-    print("Usuario: ",usuario)
-    prueba = list(usuario.get_all_permissions())
-    print("Permisos: ",prueba)
-    #print("Permisos[0]: ",prueba[0])
-    if len(usuario.get_all_permissions())<1:
-        return False
-
-    print("Permisos cantidad: ",len(usuario.get_all_permissions()))
+    
     respuesta = Categoria.objects.filter(nombre=categoria_nombre,activo=True)
-    print("categoria: ",respuesta)
+    #print("categoria: ",respuesta)
 
 
 

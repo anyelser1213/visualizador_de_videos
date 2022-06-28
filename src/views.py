@@ -100,7 +100,39 @@ class Index(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['informacion'] = "Hola..."
-        context['categorias'] = Categoria.objects.filter(activo=True)
+
+
+
+################ AQUI VA LA LOGICA DE LOS PERMISOS##############
+        print("Usuario get: ",self.request.user)
+        Lista_Categorias_Permitidas = list(self.request.user.get_all_permissions())
+        print("Permisos: ",Lista_Categorias_Permitidas)
+
+
+        #Solo se mostraran en base a los permisos del usuario
+        Q1 = Categoria.objects.none()
+        for Nombre_Categoria in Lista_Categorias_Permitidas:
+
+            print(Nombre_Categoria, Nombre_Categoria.find('_'))
+            print(Nombre_Categoria[Nombre_Categoria.index('_')+1:])
+            
+            #Con esto concatenamos queryset
+            Q1 |= Categoria.objects.filter(nombre=str(Nombre_Categoria[Nombre_Categoria.index('_')+1:]),activo=True)
+        
+
+
+
+
+        #print("Permisos[0]: ",prueba[0])
+        #if len(usuario.get_all_permissions())<1:
+        #    return False
+
+        print("Permisos cantidad: ",len(self.request.user.get_all_permissions()))
+
+
+
+
+        context['categorias'] = Q1
         context['subcategorias'] = Subcategoria.objects.filter(activo=True)
         context['userEjemplo'] = Usuarios.objects.get(username="juan")
 

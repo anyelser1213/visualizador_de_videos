@@ -116,7 +116,7 @@
                           {% for categoria in categorias %}
 
                             
-                            {% categoria_existe categoria.nombre request.user as respuesta %}
+                            {% categoria_existe categoria.nombre as respuesta %}
                             {% if respuesta %}
 
                                   <li class="nav-item has-submenu">
