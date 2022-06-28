@@ -107,34 +107,23 @@ class Index(TemplateView):
         print("Usuario get: ",self.request.user)
         Lista_Categorias_Permitidas = list(self.request.user.get_all_permissions())
         print("Permisos: ",Lista_Categorias_Permitidas)
-
+        print("Permisos cantidad: ",len(Lista_Categorias_Permitidas))
 
         #Solo se mostraran en base a los permisos del usuario
         Q1 = Categoria.objects.none()
-        for Nombre_Categoria in Lista_Categorias_Permitidas:
+        if len(Lista_Categorias_Permitidas)>0:
 
-            print(Nombre_Categoria, Nombre_Categoria.find('_'))
-            print(Nombre_Categoria[Nombre_Categoria.index('_')+1:])
-            
-            #Con esto concatenamos queryset
-            Q1 |= Categoria.objects.filter(nombre=str(Nombre_Categoria[Nombre_Categoria.index('_')+1:]),activo=True)
+            for Nombre_Categoria in Lista_Categorias_Permitidas:
+
+                print(Nombre_Categoria, Nombre_Categoria.find('_'))
+                print(Nombre_Categoria[Nombre_Categoria.index('_')+1:])
+                
+                #Con esto concatenamos queryset
+                Q1 |= Categoria.objects.filter(nombre=str(Nombre_Categoria[Nombre_Categoria.index('_')+1:]),activo=True)
         
-
-
-
-
-        #print("Permisos[0]: ",prueba[0])
-        #if len(usuario.get_all_permissions())<1:
-        #    return False
-
-        print("Permisos cantidad: ",len(self.request.user.get_all_permissions()))
-
-
-
-
+        
         context['categorias'] = Q1
         context['subcategorias'] = Subcategoria.objects.filter(activo=True)
-        context['userEjemplo'] = Usuarios.objects.get(username="juan")
 
         #miVideo = Video.objects.get(pk=1)
         #print("RUTA: ",os.path.join(settings.MEDIA_ROOT))
