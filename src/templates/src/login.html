@@ -4,8 +4,16 @@
 
 {% block EnlacesPersonalizados %}
 
-<link rel="stylesheet" href="{% static 'src/css/login.css'%}">
+<link rel="stylesheet" href="{% static 'src/css/login.css' %}">
 
+<style>
+  .abs-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+</style>
 
     
 
@@ -17,23 +25,23 @@
 
 
 
-<div class="container">
-    <div class="row">
-      <div class="col-md-6 offset-md-3">
+<div class="container  ">
+    <div class="row justify-content-center ">
+      <div class="col-md-3 offset-m-3  abs-center ">
         
-        <div class="card my-5">
+        <div class=" card border border-dark ">
 
-            <form action="{% url 'src:login' %}" class="card-body cardbody-color p-lg-5" method="post">
+            <form action="{% url 'src:login' %}" class="card-body cardbody-color  bg-dark" method="post">
 
               {% csrf_token %}
             <div class="text-center">
-              <img src="{% static 'src/img/logo_login.jpg' %}" class="img-fluid profile-image-pic img-thumbnail rounded-circle my-4"
+              <img src="{% static 'src/img/logo_login.jpg' %}" class="img-fluid profile-image-pic img-thumbnail rounded-circle my-2"
                 width="200px" alt="profile">
             </div>
             
             
               {% if messages %} 
-              <div class="alert alert-danger">
+              <div class="alert alert-danger ">
                  {% for message in messages %} {{ message }} {% endfor %} 
 
               </div>
@@ -57,7 +65,7 @@
             <div class="mb-3">
                 {{form.password}}
             </div>
-            <div class="text-center"><button type="submit" class="btn btn-color px-5 mb-5 w-100">Iniciar Sesion</button></div>
+            <div class="text-center"><button type="submit" class="btn btn-outline-secondary text-white px-5  ">Iniciar Sesion</button></div>
             
           </form>
         </div>
