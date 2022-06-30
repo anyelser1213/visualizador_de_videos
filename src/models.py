@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import os
 import shutil
 from unicodedata import category #libreria para borrar carpetas esten o no llenas
@@ -11,7 +12,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.dispatch import receiver
-from django.db.models.signals import post_save, pre_delete, post_delete
+from django.db.models.signals import pre_save, post_save, pre_delete, post_delete
 
 
 # Create your models here.
@@ -157,6 +158,76 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
 ##########################################################################################################
 ##########################################################################################################
 
+
+class Fondos(models.Model):
+
+    nombre = models.CharField(max_length=200,unique=True)
+    imagen = models.ImageField(upload_to='img/fondos/imagen_fondo/',blank=True, null=True)
+    #imagen_logo = models.ImageField(upload_to='img/fondos/imagen_logo/',blank=True, null=True)
+    
+    
+
+    class Meta:
+        
+        verbose_name = "Fondo"
+        verbose_name_plural = "Fondos"
+        db_table = 'fondos'
+
+    
+    def __str__(self):
+        return str(self.nombre)
+
+    def save(self, *args, **kwargs): 
+
+        print("FONDOS, metodo save") 
+        #print(self.imagen_fondo)
+        
+        #self.video.name = self.categoria,"/",self.mes
+        #aux = os.path.join(self.categoria,self.mes,self.video.name)
+        #print(aux)
+        #self.video.name = aux
+
+
+
+
+        ######
+         
+        try:
+            #Para borrar el directorio y todo lo que haya dentro
+            ruta = os.path.join(settings.MEDIA_ROOT)+"/img/fondos/imagen_fondo/"
+            shutil.rmtree(ruta)
+
+            print(ruta)
+        except OSError as e:
+
+            print(f"Error:{ e.strerror}")
+         
+         
+        ######
+
+
+
+
+
+
+
+        #indice_final = 
+        #print(self.video.name)
+        #print("prueba: ",self.video.name[:self.video.name.index('.')])
+        
+        #self.nombre = self.video.name #[:self.video.name.index('.')] #Guardamos el nombre del video
+        #self.video.name = os.path.join(str(self.categoria),str(self.subcategoria),self.video.name)#Guardamos la ruta
+        #return False
+        super(Fondos, self).save(*args, **kwargs)
+
+@receiver(post_save,sender=Fondos)
+def ModificarFondo(sender,instance,**kwargs):
+
+    print(sender)
+
+    print(instance)
+    #print(instance.imagen_fondo)
+    print("FONDO, SEÑAL MODIFICADORA")
 
 
 class Categoria(models.Model):
