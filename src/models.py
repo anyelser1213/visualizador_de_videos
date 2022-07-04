@@ -159,10 +159,17 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
 ##########################################################################################################
 
 
+
+def user_directory_path(instance, filename):
+  
+    # file will be uploaded to MEDIA_ROOT / user_<id>/<filename>
+    return 'img/fondos/{0}/{1}'.format(instance.nombre, filename)
+
+
 class Fondos(models.Model):
 
     nombre = models.CharField(max_length=200,unique=True)
-    imagen = models.ImageField(upload_to='img/fondos/imagen_fondo/',blank=True, null=True)
+    imagen = models.ImageField(upload_to=user_directory_path,blank=True, null=True)
     #imagen_logo = models.ImageField(upload_to='img/fondos/imagen_logo/',blank=True, null=True)
     
     
@@ -180,7 +187,8 @@ class Fondos(models.Model):
     def save(self, *args, **kwargs): 
 
         print("FONDOS, metodo save") 
-        #print(self.imagen_fondo)
+        print(self.imagen)
+        print("con nombre: ",self.imagen.name)
         
         #self.video.name = self.categoria,"/",self.mes
         #aux = os.path.join(self.categoria,self.mes,self.video.name)
@@ -188,22 +196,21 @@ class Fondos(models.Model):
         #self.video.name = aux
 
 
-
-
         ######
-         
+            
         try:
             #Para borrar el directorio y todo lo que haya dentro
-            ruta = os.path.join(settings.MEDIA_ROOT)+"/img/fondos/imagen_fondo/"
+            ruta = os.path.join(settings.MEDIA_ROOT,'img','fondos',self.nombre)
+            
+            #Con esto borramos carpetas
             shutil.rmtree(ruta)
-
             print(ruta)
+
         except OSError as e:
 
             print(f"Error:{ e.strerror}")
-         
-         
-        ######
+
+        #################
 
 
 
@@ -212,7 +219,8 @@ class Fondos(models.Model):
 
 
         #indice_final = 
-        #print(self.video.name)
+        #self.imagen.name = 'fondos'+str(self.nombre,self.imagen.name)
+        print(self.imagen)
         #print("prueba: ",self.video.name[:self.video.name.index('.')])
         
         #self.nombre = self.video.name #[:self.video.name.index('.')] #Guardamos el nombre del video
@@ -220,12 +228,38 @@ class Fondos(models.Model):
         #return False
         super(Fondos, self).save(*args, **kwargs)
 
-@receiver(post_save,sender=Fondos)
+
+
+@receiver(pre_save,sender=Fondos)
 def ModificarFondo(sender,instance,**kwargs):
 
     print(sender)
 
-    print(instance)
+    print("\n\nnombre:",instance)
+    print("id: ",instance.id)
+    print("imagen: ",instance.imagen)
+    print("imagen nombre: ",instance.imagen)
+
+    ######
+    """
+        
+    try:
+        #Para borrar el directorio y todo lo que haya dentro
+        ruta = os.path.join(settings.MEDIA_ROOT,'img','fondos',instance.imagen.name)
+        print("imagen ruta: ",ruta)
+        #Con esto borramos archivos
+        os.remove(ruta)
+
+        #Con esto borramos carpetas
+        shutil.rmtree(ruta)
+        print(ruta)
+
+    except OSError as e:
+
+        print(f"Error:{ e.strerror}")
+         
+    """
+    ######
     #print(instance.imagen_fondo)
     print("FONDO, SEÑAL MODIFICADORA")
 

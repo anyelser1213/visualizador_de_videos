@@ -108,6 +108,7 @@ class Index(TemplateView):
         Lista_Categorias_Permitidas = list(self.request.user.get_all_permissions())
         print("Permisos: ",Lista_Categorias_Permitidas)
         print("Permisos cantidad: ",len(Lista_Categorias_Permitidas))
+        print("Ruta que frao:",settings.MEDIA_ROOT)
 
         #Solo se mostraran en base a los permisos del usuario
         Q1 = Categoria.objects.none()
@@ -115,8 +116,8 @@ class Index(TemplateView):
 
             for Nombre_Categoria in Lista_Categorias_Permitidas:
 
-                print(Nombre_Categoria, Nombre_Categoria.find('_'))
-                print(Nombre_Categoria[Nombre_Categoria.index('_')+1:])
+                #print(Nombre_Categoria, Nombre_Categoria.find('_'))
+                #print(Nombre_Categoria[Nombre_Categoria.index('_')+1:])
                 
                 #Con esto concatenamos queryset
                 Q1 |= Categoria.objects.filter(nombre=str(Nombre_Categoria[Nombre_Categoria.index('_')+1:]),activo=True)
@@ -124,6 +125,7 @@ class Index(TemplateView):
         
         context['categorias'] = Q1
         context['subcategorias'] = Subcategoria.objects.filter(activo=True)
+        context['rutaMedia'] = settings.MEDIA_ROOT
 
         #miVideo = Video.objects.get(pk=1)
         #print("RUTA: ",os.path.join(settings.MEDIA_ROOT))
@@ -131,13 +133,7 @@ class Index(TemplateView):
         #pathExt = miVideo.video.name
         #print("SIN LA R: ",pathExt)
         #print(os.name)
-        
 
-        # Path(prueba)
-        path = '/home/User/Documents'
-        
-        # Get the directory name  
-        # from the specified path
         try:
 
             archivos = os.listdir(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/")
