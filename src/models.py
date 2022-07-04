@@ -1,5 +1,7 @@
+from asyncio.windows_events import NULL
 import os
-import shutil #libreria para borrar carpetas esten o no llenas
+import shutil
+from unicodedata import category #libreria para borrar carpetas esten o no llenas
 from django.conf import settings
 from django.db import models
 
@@ -10,7 +12,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.dispatch import receiver
-from django.db.models.signals import post_save, pre_delete, post_delete
+from django.db.models.signals import pre_save, post_save, pre_delete, post_delete
 
 
 # Create your models here.
@@ -157,6 +159,76 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
 ##########################################################################################################
 
 
+class Fondos(models.Model):
+
+    nombre = models.CharField(max_length=200,unique=True)
+    imagen = models.ImageField(upload_to='img/fondos/imagen_fondo/',blank=True, null=True)
+    #imagen_logo = models.ImageField(upload_to='img/fondos/imagen_logo/',blank=True, null=True)
+    
+    
+
+    class Meta:
+        
+        verbose_name = "Fondo"
+        verbose_name_plural = "Fondos"
+        db_table = 'fondos'
+
+    
+    def __str__(self):
+        return str(self.nombre)
+
+    def save(self, *args, **kwargs): 
+
+        print("FONDOS, metodo save") 
+        #print(self.imagen_fondo)
+        
+        #self.video.name = self.categoria,"/",self.mes
+        #aux = os.path.join(self.categoria,self.mes,self.video.name)
+        #print(aux)
+        #self.video.name = aux
+
+
+
+
+        ######
+         
+        try:
+            #Para borrar el directorio y todo lo que haya dentro
+            ruta = os.path.join(settings.MEDIA_ROOT)+"/img/fondos/imagen_fondo/"
+            shutil.rmtree(ruta)
+
+            print(ruta)
+        except OSError as e:
+
+            print(f"Error:{ e.strerror}")
+         
+         
+        ######
+
+
+
+
+
+
+
+        #indice_final = 
+        #print(self.video.name)
+        #print("prueba: ",self.video.name[:self.video.name.index('.')])
+        
+        #self.nombre = self.video.name #[:self.video.name.index('.')] #Guardamos el nombre del video
+        #self.video.name = os.path.join(str(self.categoria),str(self.subcategoria),self.video.name)#Guardamos la ruta
+        #return False
+        super(Fondos, self).save(*args, **kwargs)
+
+@receiver(post_save,sender=Fondos)
+def ModificarFondo(sender,instance,**kwargs):
+
+    print(sender)
+
+    print(instance)
+    #print(instance.imagen_fondo)
+    print("FONDO, SEÑAL MODIFICADORA")
+
 
 class Categoria(models.Model):
 
@@ -190,10 +262,32 @@ class Categoria(models.Model):
     #Editando los metodos
     def save(self, *args, **kwargs): 
 
-        print("Probando con categorias") 
-        print(self.nombre)
-        os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.nombre)
         
+        existe = Categoria.objects.filter(nombre=self.nombre)
+        if existe.count()>0:
+            print("Modificando: ",self.nombre) 
+            super(Categoria, self).save(*args, **kwargs)
+        else:
+            print("Creando nueva categoria...",self.nombre)
+            os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.nombre)
+            
+            #Permisos
+            content_type = ContentType.objects.get_for_model(Categoria)
+            permisos = Permission.objects.create(
+                codename='ver_'+self.nombre,
+                name='ver_'+self.nombre,
+                content_type=content_type,
+            )
+            #permisos = Permission.objects.create(
+            #    codename='add_'+self.nombre,
+            #    name='add_'+self.nombre,
+            #    content_type=content_type,
+            #)
+
+            print("Se agregaron los permisos: ", permisos)
+            
+            super(Categoria, self).save(*args, **kwargs)
+
         #self.video.name = self.categoria,"/",self.mes
         #aux = os.path.join(self.categoria,self.mes,self.video.name)
         #print(aux)
@@ -204,23 +298,9 @@ class Categoria(models.Model):
         #print(self.video.name)
         #print("prueba: ",self.video.name[:self.video.name.index('.')])
 
-        #Permisos
-        content_type = ContentType.objects.get_for_model(Categoria)
-        permission = Permission.objects.create(
-            codename='ver_'+self.nombre,
-            name='ver_'+self.nombre,
-            content_type=content_type,
-        )
-        permission = Permission.objects.create(
-            codename='add_'+self.nombre,
-            name='add_'+self.nombre,
-            content_type=content_type,
-        )
-
-
-
         
-        super(Categoria, self).save(*args, **kwargs)
+
+
 
 
 
@@ -272,11 +352,14 @@ class Subcategoria(models.Model):
 
         print("Probando con subcategorias") 
         print(self.nombre)
-
-        os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.categoria.nombre+"/"+self.nombre)
-        
-        
-        super(Subcategoria, self).save(*args, **kwargs)
+        existe = Subcategoria.objects.filter(categoria=self.categoria,nombre=self.nombre)
+        if existe.count()>0:
+            
+            super(Subcategoria, self).save(*args, **kwargs)
+        else:
+            print("No existe nada...")
+            os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.categoria.nombre+"/"+self.nombre)
+            super(Subcategoria, self).save(*args, **kwargs)
 
 
 #Funcion de señales en Django

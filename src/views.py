@@ -73,13 +73,15 @@ class Index(TemplateView):
 
             print("Estas autenticado GENIAL")
             print("usuario: ",request.user)
-            #print("usuario permisos: ",request.user.get_all_permissions())
+            print("usuario permisos: ",request.user.get_all_permissions())
+            print(request.user.has_perm('src.ver_zulia'))
+            
             
             #Aqui verificamos si el usuario esta activo para que ingrese
             if request.user.activo:   
                 print("Usuario activo y validado")
             else:
-                print("The password is valid, but the account has been disabled!")
+                print("El usuario no esta activo")
                 messages.add_message(request, messages.INFO, "Usuario Inactivo")
                 return redirect("src:logout")
             #return redirect("src:index")
@@ -98,7 +100,29 @@ class Index(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['informacion'] = "Hola..."
-        context['categorias'] = Categoria.objects.filter(activo=True)
+
+
+
+################ AQUI VA LA LOGICA DE LOS PERMISOS##############
+        print("Usuario get: ",self.request.user)
+        Lista_Categorias_Permitidas = list(self.request.user.get_all_permissions())
+        print("Permisos: ",Lista_Categorias_Permitidas)
+        print("Permisos cantidad: ",len(Lista_Categorias_Permitidas))
+
+        #Solo se mostraran en base a los permisos del usuario
+        Q1 = Categoria.objects.none()
+        if len(Lista_Categorias_Permitidas)>0:
+
+            for Nombre_Categoria in Lista_Categorias_Permitidas:
+
+                print(Nombre_Categoria, Nombre_Categoria.find('_'))
+                print(Nombre_Categoria[Nombre_Categoria.index('_')+1:])
+                
+                #Con esto concatenamos queryset
+                Q1 |= Categoria.objects.filter(nombre=str(Nombre_Categoria[Nombre_Categoria.index('_')+1:]),activo=True)
+        
+        
+        context['categorias'] = Q1
         context['subcategorias'] = Subcategoria.objects.filter(activo=True)
 
         #miVideo = Video.objects.get(pk=1)
