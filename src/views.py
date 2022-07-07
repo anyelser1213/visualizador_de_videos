@@ -129,15 +129,6 @@ class Index(TemplateView):
         context['subcategorias'] = Subcategoria.objects.filter(activo=True)
 
 
-
-        fondo = Fondos.objects.get(nombre="fondo")
-        print(fondo)
-        print(fondo.imagen)
-        print(fondo.imagen.url)
-        context['rutaMedia'] = settings.MEDIA_ROOT
-        context['FotoFondo'] = fondo.imagen.url
-        context['prueba'] =fondo.imagen.url
-
         #miVideo = Video.objects.get(pk=1)
         #print("RUTA: ",os.path.join(settings.MEDIA_ROOT))
         #print("RUTA MEDIA_ROOT: ",miVideo.video)
@@ -201,6 +192,24 @@ def Probando(request):
 
         result = Fondos.objects.filter(nombre="fondo").values("nombre")
         datos={'FondoIndex':prueba}
+        return JsonResponse(datos)
+
+
+def api_login(request):
+
+
+    if request.method == 'GET':
+
+
+        fondoLogin = Fondos.objects.get(nombre="fondoLogin")
+        ImagenFormulario = Fondos.objects.get(nombre="logo")
+        #print(fondo)
+        #print(fondo.imagen)
+        #print(fondo.imagen.url)
+        prueba = fondoLogin.imagen.url
+
+
+        datos={'FondoLogin':fondoLogin.imagen.url,'ImagenLogin':ImagenFormulario.imagen.url}
         return JsonResponse(datos)
 
 def PasarDatos(request):

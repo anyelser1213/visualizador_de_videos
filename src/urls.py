@@ -19,6 +19,7 @@ urlpatterns = [
 
     #Para las apis
     path('probando/', views.Probando ,name="probando"),
+    path('api_login/', views.api_login ,name="api_login"),
 
     
     
