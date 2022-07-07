@@ -1,14 +1,17 @@
+import {csrftoken} from "./cookiesDjango.js";
+
+
 
 var img = document.getElementById("imagenLogin");
 
-console.log(img.src);
+console.log(csrftoken);
 
 
     var resultados = "Cargando...";
 	fetch("/api_login",{
             method:"GET",
             headers:{
-                "X-CSRFToken":getCookie('csrftoken'),
+                "X-CSRFToken":csrftoken,
                 "X-Requestd-With":"XMLGttpRequest"//Con esto indicamos que es una peticion ajax
             }
 
@@ -20,8 +23,8 @@ console.log(img.src);
         }
     ).then(
         function(data){
-            
-            console.log(data.FondoLogin);
+
+            //console.log(data.FondoLogin);
 
             //{% static 'src/img/logo_login.jpg' %} esto lo quitamos del login.html
             img.setAttribute("src",data.ImagenLogin);

@@ -1,16 +1,7 @@
 
-let container = document.querySelector('[data-id="17"]');
+var jamon = "Somos todos";
 
-console.log(container.innerHTML);
-
-
-var form = document.getElementById("formulario");
-form.addEventListener("submit",function(evento){
-
-        alert("Probando");
-
-
-});
+export{jamon};
 
 
 

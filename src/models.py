@@ -1,4 +1,4 @@
-from asyncio.windows_events import NULL
+
 import os
 import shutil
 from unicodedata import category #libreria para borrar carpetas esten o no llenas
