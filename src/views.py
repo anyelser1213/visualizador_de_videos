@@ -183,6 +183,13 @@ def Probando(request):
     if request.method == 'GET':
 
 
+        try:
+            fondo = Fondos.objects.get(nombre="fondo")
+            if fondo.imagen =="":
+                fondo = "null"
+        except Fondos.DoesNotExist:
+            fondo = "null"
+
         fondo = Fondos.objects.get(nombre="fondo")
         print(fondo)
         print(fondo.imagen)
@@ -201,15 +208,46 @@ def api_login(request):
     if request.method == 'GET':
 
 
-        fondoLogin = Fondos.objects.get(nombre="fondoLogin")
-        ImagenFormulario = Fondos.objects.get(nombre="logo")
+        #Variables para probar
+        respuestaFondoLogin = ""
+        respuestaImagenLogin = ""
+        #Con esto aplicamos validaciones
+        print("Entramos a la api_login")
+        try:
+            fondoLogin = Fondos.objects.get(nombre="fondoLogin")
+            print(fondoLogin.imagen)
+
+            if fondoLogin.imagen =="":
+                respuestaFondoLogin = "null"
+            else:
+                respuestaFondoLogin =fondoLogin.imagen.url
+
+        except Fondos.DoesNotExist:
+            respuestaFondoLogin = "null"
+
+
+
+    ############# Respuesta para la imagenLogin ###############
+        try:
+            ImagenLogin = Fondos.objects.get(nombre="imagen_login")
+            print("Probando")
+            #print("imagen: ",ImagenLogin.imagen)
+            print("Imagen URL:")
+            if ImagenLogin.imagen =="":
+                respuestaImagenLogin = "null"
+            else:
+                respuestaImagenLogin = ImagenLogin.imagen.url
+        except Fondos.DoesNotExist:
+            respuestaImagenLogin = "null"
+
+
         #print(fondo)
         #print(fondo.imagen)
         #print(fondo.imagen.url)
-        prueba = fondoLogin.imagen.url
 
-
-        datos={'FondoLogin':fondoLogin.imagen.url,'ImagenLogin':ImagenFormulario.imagen.url}
+        #
+        #
+        datos={'FondoLogin':respuestaFondoLogin,'ImagenLogin':respuestaImagenLogin}
         return JsonResponse(datos)
 
 def PasarDatos(request):

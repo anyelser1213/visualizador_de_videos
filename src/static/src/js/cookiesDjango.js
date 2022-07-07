@@ -18,3 +18,4 @@
 
         //Valor que  le pasaremos aa Django para la seguridad
         var csrftoken = getCookie('csrftoken');
+

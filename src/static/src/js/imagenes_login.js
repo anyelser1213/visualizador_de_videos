@@ -1,28 +1,7 @@
 
+var img = document.getElementById("imagenLogin");
 
-    
-
-
-
-
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
-    //Valor que  le pasaremos aa Django para la seguridad
-    var csrftoken = getCookie('csrftoken');
+console.log(img.src);
 
 
     var resultados = "Cargando...";
@@ -41,8 +20,11 @@
         }
     ).then(
         function(data){
+            
             console.log(data.FondoLogin);
 
+            //{% static 'src/img/logo_login.jpg' %} esto lo quitamos del login.html
+            img.setAttribute("src",data.ImagenLogin);
             
             document.body.style.backgroundImage = "url("+data.FondoLogin+")";
             document.body.style.backgroundPosition = "center center";

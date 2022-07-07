@@ -35,7 +35,7 @@
 
               {% csrf_token %}
             <div class="text-center">
-              <img src="{% static 'src/img/logo_login.jpg' %}" class="img-fluid profile-image-pic img-thumbnail rounded-circle my-2"
+              <img id="imagenLogin" src="" class="img-fluid profile-image-pic img-thumbnail rounded-circle my-2"
                 width="200px" alt="profile">
             </div>
             
@@ -83,7 +83,7 @@
 {% block EnlacesListado_js %}
 
   
-
+  <script src="{% static 'src/js/cookiesDjango.js' %}"></script>
   <script src="{% static 'src/js/imagenes_login.js' %}"></script>
 
   
