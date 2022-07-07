@@ -75,7 +75,6 @@
 
 
 
-<p id="datos" data-media="{{rutaMedia}}" data-fondo = "/img/fondos/foto_logo_video.jpg">{{rutaMedia}}</p>
 <div class="container ">
 
   <div class="position-absolute top-0 end-0">
@@ -233,19 +232,9 @@
   <script src="{% static 'src/js/visualizar_video.js'%}"></script>    
   
   
-  <script >
 
+  <script src="{% static 'src/js/imagenes_fondos.js' %}"></script>
 
-    var valorData = document.getElementById("datos");
-    var valor = valorData.dataset.media;
-    var valor2 = valorData.dataset.fondo;
-
-    console.log(valor+valor2);
-    console.log(valor2);
-
-
-    document.body.style.backgroundImage = valor+valor2;
-    alert("Prueba");
-  </script>
+  
 
 {% endblock %}

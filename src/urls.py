@@ -17,6 +17,9 @@ urlpatterns = [
     #Para pruebas
     path('pruebas/', views.pruebas ,name="pruebas"),
 
+    #Para las apis
+    path('probando/', views.Probando ,name="probando"),
+
     
     
     

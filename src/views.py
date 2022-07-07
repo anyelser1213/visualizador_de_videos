@@ -1,6 +1,8 @@
 
+from http.client import responses
+from urllib import response
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from .models import Video
 from django.shortcuts import redirect, render
@@ -72,9 +74,9 @@ class Index(TemplateView):
         else:
 
             print("Estas autenticado GENIAL")
-            print("usuario: ",request.user)
-            print("usuario permisos: ",request.user.get_all_permissions())
-            print(request.user.has_perm('src.ver_zulia'))
+            #print("usuario: ",request.user)
+            #print("usuario permisos: ",request.user.get_all_permissions())
+            #print(request.user.has_perm('src.ver_zulia'))
             
             
             #Aqui verificamos si el usuario esta activo para que ingrese
@@ -106,9 +108,9 @@ class Index(TemplateView):
 ################ AQUI VA LA LOGICA DE LOS PERMISOS##############
         print("Usuario get: ",self.request.user)
         Lista_Categorias_Permitidas = list(self.request.user.get_all_permissions())
-        print("Permisos: ",Lista_Categorias_Permitidas)
-        print("Permisos cantidad: ",len(Lista_Categorias_Permitidas))
-        print("Ruta que frao:",settings.MEDIA_ROOT)
+        #print("Permisos: ",Lista_Categorias_Permitidas)
+        #print("Permisos cantidad: ",len(Lista_Categorias_Permitidas))
+        #print("Ruta que frao:",settings.MEDIA_ROOT)
 
         #Solo se mostraran en base a los permisos del usuario
         Q1 = Categoria.objects.none()
@@ -125,7 +127,16 @@ class Index(TemplateView):
         
         context['categorias'] = Q1
         context['subcategorias'] = Subcategoria.objects.filter(activo=True)
+
+
+
+        fondo = Fondos.objects.get(nombre="fondo")
+        print(fondo)
+        print(fondo.imagen)
+        print(fondo.imagen.url)
         context['rutaMedia'] = settings.MEDIA_ROOT
+        context['FotoFondo'] = fondo.imagen.url
+        context['prueba'] =fondo.imagen.url
 
         #miVideo = Video.objects.get(pk=1)
         #print("RUTA: ",os.path.join(settings.MEDIA_ROOT))
@@ -171,4 +182,28 @@ def pruebas(request):
 
     return render(request, 'pruebas.html', {})
 
+
+
+
+###### APIS ##########
+
+
+def Probando(request):
+    if request.method == 'GET':
+
+
+        fondo = Fondos.objects.get(nombre="fondo")
+        print(fondo)
+        print(fondo.imagen)
+        print(fondo.imagen.url)
+        prueba = fondo.imagen.url
+
+
+        result = Fondos.objects.filter(nombre="fondo").values("nombre")
+        datos={'FondoIndex':prueba}
+        return JsonResponse(datos)
+
+def PasarDatos(request):
+
+    return response("datos")
 
