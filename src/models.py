@@ -353,6 +353,9 @@ def BorrarCategoria(sender,instance,**kwargs):
         videos.delete()
         shutil.rmtree(ruta)
 
+        Permiso = Permission.objects.get(name="ver_"+instance.nombre)
+        Permiso.delete()
+
         print(ruta)
     except OSError as e:
         print(f"Error:{ e.strerror}")

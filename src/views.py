@@ -93,6 +93,9 @@ class Index(TemplateView):
             #grupo="prueba"
             #print('Proyecto %s' % (grupo))
 
+            prueba = Permission.objects.filter(name="ver_caracas")
+            print(prueba)
+
             
             #empresa_creada = Empresa.objects.filter(creado_por_id=request.user.id)
 
