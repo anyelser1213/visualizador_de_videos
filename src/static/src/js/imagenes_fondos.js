@@ -20,9 +20,10 @@ import {csrftoken} from "./cookiesDjango.js";
 
             
             document.body.style.backgroundImage = "url("+data.FondoIndex+")";
-            document.body.style.backgroundPosition = "center center";
+            //document.body.style.backgroundPosition = "center";
             document.body.style.backgroundRepeat = "no-repeat";
-            document.body.style.backgroundSize = "cover";
+            document.body.style.backgroundSize = "100% 100%";
+            document.body.style.backgroundAttachment = "fixed";
 
         }
     )

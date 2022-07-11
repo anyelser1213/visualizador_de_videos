@@ -1,7 +1,6 @@
 
 import os
-import shutil
-from unicodedata import category #libreria para borrar carpetas esten o no llenas
+import shutil #libreria para borrar carpetas esten o no llenas
 from django.conf import settings
 from django.db import models
 
