@@ -13,7 +13,14 @@
   justify-content: center;
   min-height: 100vh;
 }
+
+.ocultarImagen{
+
+  display: none;
+}
 </style>
+
+<script src="{% static 'src/js/imagenes_login.js' %}" type="module"></script>
 
     
 
@@ -35,8 +42,8 @@
 
               {% csrf_token %}
             <div class="text-center">
-              <img id="imagenLogin" src="" class="img-fluid profile-image-pic img-thumbnail rounded-circle my-2"
-                width="200px" alt="profile">
+              <img id="imagenLogin" src="" class="img-fluid profile-image-pic img-thumbnail rounded-circle my-2 ocultarImagen"
+                width="200px" >
             </div>
             
             
@@ -83,7 +90,7 @@
 {% block EnlacesListado_js %}
 
   
-  <script src="{% static 'src/js/imagenes_login.js' %}" type="module"></script>
+  
 
   
 

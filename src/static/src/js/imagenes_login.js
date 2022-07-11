@@ -24,15 +24,20 @@ console.log(csrftoken);
     ).then(
         function(data){
 
-            //console.log(data.FondoLogin);
+            console.log(data);
 
             //{% static 'src/img/logo_login.jpg' %} esto lo quitamos del login.html
             img.setAttribute("src",data.ImagenLogin);
+            //img.setAttribute("src","jamon");
+            img.setAttribute("width","100%")
+            img.setAttribute("heigth","100%")
+            img.setAttribute("alt","jamon")
+            img.style.display="inline";
             
             document.body.style.backgroundImage = "url("+data.FondoLogin+")";
-            document.body.style.backgroundPosition = "center center";
             document.body.style.backgroundRepeat = "no-repeat";
-            document.body.style.backgroundSize = "cover";
+            document.body.style.backgroundSize = "100% 100%";
+            document.body.style.backgroundAttachment = "fixed";
 
         }
     ) 
