@@ -47,11 +47,15 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    #Para cerrar sesiones
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    
 ]
 
 ROOT_URLCONF = 'sitioWeb.urls'
@@ -161,3 +165,26 @@ AUTH_USER_MODEL = 'src.usuarios'
 #Para el login
 LOGIN_URL = 'src:login'
 LOGIN_REDIRECT_URL = 'src:index'
+
+
+#Para cerrar sesiones en un periodo de tiempo
+
+# Logout after a period of inactivity
+
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_SECONDS = 1*10  # 5 min
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+SESSION_TIMEOUT_REDIRECT = 'src:login'  # redirect to whatever page
+
+"""
+"""
+
+
+""" 
+# Logout after a period of inactivity
+INACTIVE_TIME = 10*1  # 15 minutes - or whatever period you think appropriate
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+SESSION_EXPIRE_AT_BROWSER_CLOSE= True
+SESSION_COOKIE_AGE = INACTIVE_TIME   # change expired session
+SESSION_IDLE_TIMEOUT = INACTIVE_TIME  # logout
+"""
