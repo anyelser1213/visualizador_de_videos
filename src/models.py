@@ -68,6 +68,16 @@ class UsuarioManager(BaseUserManager):
 
 
 
+#Funcion para agregar carpetas al usuario
+def direccion_usuarios(instance, filename):
+  
+    # file will be uploaded to MEDIA_ROOT / user_<id>/<filename>
+    print(instance)
+    print(instance.id)
+    print(instance.username)
+    return 'usuarios/fondos/{0}/{1}'.format(instance.username, filename)
+
+
 # Heredamos de AbstractBaseUser para adaptarlo a nuestro gusto
 class Usuarios(AbstractBaseUser,PermissionsMixin):
 
@@ -85,7 +95,7 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
     #    ('pago','Pay'),
     #]
     
-    
+    id = models.AutoField(primary_key=True)
     username = models.CharField("Username",max_length=200,unique=True)
     nombres = models.CharField("Nombres",max_length=200,blank=True, null=True) 
     apellidos = models.CharField("Apellidos",max_length=200,blank=True, null=True) 
@@ -96,7 +106,7 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
     admin = models.BooleanField(default=False)#Para poder ingresar al admin de django
     cedula = models.IntegerField(default=0,blank=True, null=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True) 
-    fecha_actualizacion = models.DateTimeField('actualizado', auto_now=True)
+    ultimo_ingreso = models.DateTimeField('actualizado', auto_now=True)
     direccion = models.CharField("Direccion",max_length=100,blank=True, null=True,default="Las Adjuntas") 
      
     
@@ -109,7 +119,7 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
     #)
 
     telefono = models.CharField("Telefono", max_length=50,blank=True,null=True,default="04242020470")
-    #imagen = models.ImageField("Imagen de perfil", upload_to="usuario/perfil", max_length=200,blank=True,null=True)
+    imagenFondoEscritorio = models.ImageField("Imagen de Escritorio", upload_to=direccion_usuarios, max_length=200,blank=True,null=True)
     
     #Para enlazar al manager que has creado
     objects = UsuarioManager()
@@ -134,6 +144,22 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
     def has_module_perms(self, app_label):
         return True
 
+    
+
+################# AQUI HACEMOS TODAS LAS PRUEBAS #########################
+
+
+
+
+    def save(self, *args, **kwargs):
+        
+        super(Usuarios, self).save(*args, **kwargs)
+        
+        
+        
+        print(self.id)
+        print("metodo jajajaj:",self._state.adding)
+
 
 
     class Meta:
@@ -152,6 +178,11 @@ class Usuarios(AbstractBaseUser,PermissionsMixin):
             
             
         ]#Fin de los permisos
+
+
+
+
+    
 
 
 ##########################################################################################################

@@ -172,7 +172,7 @@ LOGIN_REDIRECT_URL = 'src:index'
 # Logout after a period of inactivity
 
 SESSION_SAVE_EVERY_REQUEST = True
-SESSION_EXPIRE_SECONDS = 1*10  # 5 min
+SESSION_EXPIRE_SECONDS = 5*50  # 5 min
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 SESSION_TIMEOUT_REDIRECT = 'src:login'  # redirect to whatever page
 

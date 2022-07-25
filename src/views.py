@@ -183,21 +183,23 @@ def pruebas(request):
 
 
 def Probando(request):
+
+    print("probando usuario:",request.user)
     if request.method == 'GET':
 
 
         try:
-            fondo = Fondos.objects.get(nombre="fondo")
-            if fondo.imagen =="":
+            fondo = Usuarios.objects.get(username=request.user.username)
+            if fondo.imagenFondoEscritorio =="":
                 fondo = "null"
         except Fondos.DoesNotExist:
             fondo = "null"
 
-        fondo = Fondos.objects.get(nombre="fondo")
+        fondo = Usuarios.objects.get(username=request.user.username)
         print(fondo)
-        print(fondo.imagen)
-        print(fondo.imagen.url)
-        prueba = fondo.imagen.url
+        print(fondo.imagenFondoEscritorio)
+        print(fondo.imagenFondoEscritorio.url)
+        prueba = fondo.imagenFondoEscritorio.url
 
 
         result = Fondos.objects.filter(nombre="fondo").values("nombre")
