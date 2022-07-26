@@ -187,7 +187,7 @@ def Probando(request):
     print("probando usuario:",request.user)
     if request.method == 'GET':
 
-
+        #ESTO ES PARA EL FONDO DE INDEX
         try:
             fondo = Usuarios.objects.get(username=request.user.username)
             if fondo.imagenFondoEscritorio =="":
@@ -195,15 +195,40 @@ def Probando(request):
         except Fondos.DoesNotExist:
             fondo = "null"
 
-        fondo = Usuarios.objects.get(username=request.user.username)
         print(fondo)
-        print(fondo.imagenFondoEscritorio)
+        print("jajajajaja: ",fondo.imagenFondoEscritorio)
         print(fondo.imagenFondoEscritorio.url)
         prueba = fondo.imagenFondoEscritorio.url
+        datos = {'FondoIndex':prueba}
 
 
-        result = Fondos.objects.filter(nombre="fondo").values("nombre")
-        datos={'FondoIndex':prueba}
+
+        #ESTO ES PARA EL ICONO DE LA PAGINA
+        try:
+            IconoWeb = Fondos.objects.get(nombre="imagen_login")
+            if IconoWeb.imagen =="":
+                IconoWeb.imagen = "/media/default/default.jpeg"
+                #Concatenamos el diccionario
+                datos|= {'IconPagWeb':str(IconoWeb.imagen)}
+            else:
+                #Concatenamos el diccionario
+                datos|= {'IconPagWeb':IconoWeb.imagen.url}
+
+        except Fondos.DoesNotExist:
+
+            IconoWeb.imagen = "/media/default/default.jpeg"
+            #Concatenamos el diccionario
+            datos|= {'IconPagWeb':str(IconoWeb.imagen)}
+
+
+        
+
+        
+        print(datos)
+
+        
+        print("concatenando:",datos)
+        #datos={'FondoIndex':prueba,'IconPagWeb':IconoWeb.imagen.url,'IconPagWeb2':"media/"+str(IconoWeb.imagen)}
         return JsonResponse(datos)
 
 
@@ -218,6 +243,9 @@ def api_login(request):
         respuestaImagenLogin = ""
         #Con esto aplicamos validaciones
         print("Entramos a la api_login")
+
+
+        ############# Respuesta para el fondo del login ###############
         try:
             fondoLogin = Fondos.objects.get(nombre="fondoLogin")
             print(fondoLogin.imagen)
@@ -225,10 +253,12 @@ def api_login(request):
             if fondoLogin.imagen =="":
                 respuestaFondoLogin = "null"
             else:
-                respuestaFondoLogin =fondoLogin.imagen.url
+                respuestaFondoLogin = fondoLogin.imagen.url
 
         except Fondos.DoesNotExist:
             respuestaFondoLogin = "null"
+
+        datos={'FondoLogin':respuestaFondoLogin}
 
 
 
@@ -239,11 +269,38 @@ def api_login(request):
             #print("imagen: ",ImagenLogin.imagen)
             print("Imagen URL:")
             if ImagenLogin.imagen =="":
-                respuestaImagenLogin = "null"
+
+                respuestaImagenLogin = "/media/default/default.jpeg"
+                #Concatenamos el diccionario
+                datos|= {'ImagenLogin':str(respuestaImagenLogin)}
+
             else:
+
                 respuestaImagenLogin = ImagenLogin.imagen.url
+                datos|= {'ImagenLogin':respuestaImagenLogin}
         except Fondos.DoesNotExist:
             respuestaImagenLogin = "null"
+
+
+
+
+        
+        #ESTO ES PARA EL ICONO DE LA PAGINA
+        try:
+            IconoWeb = Fondos.objects.get(nombre="imagen_login")
+            if IconoWeb.imagen =="":
+                IconoWeb.imagen = "/media/default/default.jpeg"
+                #Concatenamos el diccionario
+                datos|= {'IconPagWeb':str(IconoWeb.imagen)}
+            else:
+                #Concatenamos el diccionario
+                datos|= {'IconPagWeb':IconoWeb.imagen.url}
+
+        except Fondos.DoesNotExist:
+
+            IconoWeb.imagen = "/media/default/default.jpeg"
+            #Concatenamos el diccionario
+            datos|= {'IconPagWeb':str(IconoWeb.imagen)}
 
 
         #print(fondo)
@@ -252,7 +309,6 @@ def api_login(request):
 
         #
         #
-        datos={'FondoLogin':respuestaFondoLogin,'ImagenLogin':respuestaImagenLogin}
         return JsonResponse(datos)
 
 def PasarDatos(request):

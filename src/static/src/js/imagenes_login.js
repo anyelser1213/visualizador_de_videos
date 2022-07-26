@@ -3,6 +3,7 @@ import {csrftoken} from "./cookiesDjango.js";
 
 
 var img = document.getElementById("imagenLogin");
+var IconoWeb = document.getElementById("iconPagWeb");
 
 console.log(csrftoken);
 
@@ -26,6 +27,7 @@ console.log(csrftoken);
 
             console.log(data);
 
+            IconoWeb.setAttribute("href",data.IconPagWeb);
             //{% static 'src/img/logo_login.jpg' %} esto lo quitamos del login.html
             img.setAttribute("src",data.ImagenLogin);
             //img.setAttribute("src","jamon");
@@ -38,6 +40,11 @@ console.log(csrftoken);
             document.body.style.backgroundRepeat = "no-repeat";
             document.body.style.backgroundSize = "100% 100%";
             document.body.style.backgroundAttachment = "fixed";
+
+
+            //AQUI PARA MODIFICAR EL ICONO
+
+            
 
         }
     ) 

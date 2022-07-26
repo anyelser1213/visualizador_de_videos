@@ -1,6 +1,8 @@
 import {csrftoken} from "./cookiesDjango.js";
 
 
+var IconoWeb = document.getElementById("iconPagWeb");
+
 	fetch("/probando",{
             method:"GET",
             headers:{
@@ -16,7 +18,11 @@ import {csrftoken} from "./cookiesDjango.js";
         }
     ).then(
         function(data){
-            console.log(data.FondoIndex);
+
+            console.log(data);
+            console.log(IconoWeb);
+            console.log(data.IconPagWeb);
+            //console.log(data.FondoIndex);
 
             
             document.body.style.backgroundImage = "url("+data.FondoIndex+")";
@@ -24,6 +30,11 @@ import {csrftoken} from "./cookiesDjango.js";
             document.body.style.backgroundRepeat = "no-repeat";
             document.body.style.backgroundSize = "100% 100%";
             document.body.style.backgroundAttachment = "fixed";
+
+
+            //AQUI PARA MODIFICAR EL ICONO
+
+            IconoWeb.setAttribute("href",data.IconPagWeb);
 
         }
     )
