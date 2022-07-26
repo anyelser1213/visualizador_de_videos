@@ -195,9 +195,9 @@ def Probando(request):
         except Fondos.DoesNotExist:
             fondo = "null"
 
-        print(fondo)
-        print("jajajajaja: ",fondo.imagenFondoEscritorio)
-        print(fondo.imagenFondoEscritorio.url)
+        #print(fondo)
+        #print("jajajajaja: ",fondo.imagenFondoEscritorio)
+        #print(fondo.imagenFondoEscritorio.url)
         prueba = fondo.imagenFondoEscritorio.url
         datos = {'FondoIndex':prueba}
 
