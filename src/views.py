@@ -1,5 +1,4 @@
 
-from http.client import responses
 from urllib import response
 from django.contrib import messages
 from django.http import HttpResponseRedirect, JsonResponse
