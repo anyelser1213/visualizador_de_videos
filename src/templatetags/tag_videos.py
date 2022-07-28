@@ -186,10 +186,10 @@ def videos_subcategoria(categoria_nombre, subcategoria_nombre):
 
         ruta = os.path.join(settings.MEDIA_ROOT)+"/videos/"+categoria_nombre+"/"+subcategoria_nombre
         #print("La ruta es:",ruta)
-        archivos = os.listdir(ruta)
-        #print(archivos)
+        archivos = sorted(os.listdir(ruta))
+        print(archivos)
         #print("tipo de dato: ",type(archivos))
-        #print("cantidad de elementos: ",len(archivos))
+        print("cantidad de elementos: ",len(archivos))
         existen = True if len(archivos)>0 else False
         #dirname = os.path.dirname(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"+archivos[0])
         
@@ -223,5 +223,5 @@ def videos_subcategoria(categoria_nombre, subcategoria_nombre):
 
 
 
-
+################## Aqui implementamos para los archivos a descargar
 

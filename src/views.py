@@ -121,12 +121,12 @@ class Index(TemplateView):
 
             for Nombre_Categoria in Lista_Categorias_Permitidas:
 
-                #print(Nombre_Categoria, Nombre_Categoria.find('_'))
+                print(Nombre_Categoria, Nombre_Categoria.find('_')," -------------- ",Nombre_Categoria[Nombre_Categoria.index('_')+1:])
                 #print(Nombre_Categoria[Nombre_Categoria.index('_')+1:])
                 
                 #Con esto concatenamos queryset
-                Q1 |= Categoria.objects.filter(nombre=str(Nombre_Categoria[Nombre_Categoria.index('_')+1:]),activo=True)
-        
+                Q1 |= Categoria.objects.filter(nombre=str(Nombre_Categoria[Nombre_Categoria.index('_')+1:]),activo=True).exclude(nombre="descargas")
+            #Q1 |= 
         
         context['categorias'] = Q1
         context['subcategorias'] = Subcategoria.objects.filter(activo=True)
@@ -165,7 +165,7 @@ class Index(TemplateView):
         #os.rmdir(os.path.join(settings.MEDIA_ROOT+r"/videos"))
         
 
-        
+        print("Probando aqui abajo jajajaj")
         context['usuario'] = self.request.user
         return context
 
@@ -224,10 +224,8 @@ def Probando(request):
         
 
         
-        print(datos)
-
-        
-        print("concatenando:",datos)
+        #print(datos)
+        #print("concatenando:",datos)
         #datos={'FondoIndex':prueba,'IconPagWeb':IconoWeb.imagen.url,'IconPagWeb2':"media/"+str(IconoWeb.imagen)}
         return JsonResponse(datos)
 
