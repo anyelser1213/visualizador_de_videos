@@ -20,7 +20,7 @@ class UserAdmin(BaseUserAdmin):
         ("Informacion Esencial", {'fields': ('username', 'password')}),
         ("Permisologia", {
             'classes': ('wide',),
-            'fields': ('is_superuser','admin','activo','groups','user_permissions'),
+            'fields': ('is_superuser','admin','activo','imagenFondoEscritorio','groups','user_permissions'),
         }),
     )
 
@@ -32,7 +32,7 @@ class UserAdmin(BaseUserAdmin):
         }),
         ("Informacion Importante", {
             'classes': ('wide',),
-            'fields': ('activo', 'is_superuser','admin', 'cedula','telefono'),
+            'fields': ('activo', 'is_superuser','admin', 'cedula','telefono','imagenFondoEscritorio'),
             #'fields': ('activo', 'is_superuser','admin', 'cedula','plan_elegido','rol','telefono'),
         }),
         ("Permisologia", {
@@ -43,7 +43,7 @@ class UserAdmin(BaseUserAdmin):
 
 
     #Para indicarle al admin que campos queremos mostrar
-    list_display = ('username', 'email','is_superuser','admin','activo')
+    list_display = ('id','username', 'email','is_superuser','admin','activo','imagenFondoEscritorio','fecha_creacion','ultimo_ingreso')
     #list_display = ('username', 'email','is_superuser','admin','rol','plan_elegido')
     list_filter = ('username','email','activo')
     

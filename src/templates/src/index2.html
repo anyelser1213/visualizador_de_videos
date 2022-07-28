@@ -65,14 +65,14 @@
 	// DOMContentLoaded  end
 </script>
 
-    
+  
+<script src="{% static 'src/js/imagenes_fondos.js' %}" type="module"></script>
 
 {% endblock %}
 
 {% block titulo %}Index{% endblock %}
 
 {% block contenedor %}
-
 
 
 <div class="container ">
@@ -88,7 +88,7 @@
 
     
     <div class="row">
-      <div class="col-sm-2  bg-dark">
+      <div class="col-sm-2 rounded-3  bg-dark">
 
                           
             <section class="section-content py-3">
@@ -185,8 +185,8 @@
             
             <main>
 
-                <div class="ratio border border-warning ratio-16x9 mx-auto  m-5">
-                    <video id="VideoCapa" width="500" height="500" controls allowfullscreen>
+                <div class="ratio  ratio-16x9 mx-auto  m-5">
+                    <video id="VideoCapa" class="rounded-3" width="500" height="500" controls allowfullscreen>
                         <source id="SourceVisual" src="{{file.video.url}}" >
                     </video>
                     <!--<iframe src="https://www.youtube.com/embed/ABM5UJeILjo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
@@ -230,10 +230,6 @@
 {% block EnlacesListado_js %}
 
   <script src="{% static 'src/js/visualizar_video.js'%}"></script>    
-  
-  
-
-  <script src="{% static 'src/js/imagenes_fondos.js' %}" type="module"></script>
 
   
 
