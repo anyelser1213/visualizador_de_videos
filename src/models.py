@@ -333,7 +333,11 @@ class Categoria(models.Model):
             super(Categoria, self).save(*args, **kwargs)
         else:
             print("Creando nueva categoria...",self.nombre)
-            os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.nombre)
+            if self.nombre == "descargas":
+                os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+self.nombre)
+            else:
+
+                os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.nombre)
             
             #Permisos
             content_type = ContentType.objects.get_for_model(Categoria)
@@ -378,16 +382,25 @@ def BorrarCategoria(sender,instance,**kwargs):
 
 
     try:
-        #Para borrar el directorio y todo lo que haya dentro
-        ruta = os.path.join(settings.MEDIA_ROOT)+"/videos/"+instance.nombre
-        videos = Video.objects.filter(categoria=instance.id) #Aqui borramos todos los videos de esta categoria
-        videos.delete()
+        #Para borrar la categoria de "descargas" y las demas categorias y todo lo que haya dentro
+        if instance.nombre == "descargas":
+            ruta = os.path.join(settings.MEDIA_ROOT,instance.nombre)
+            videos = Video.objects.filter(categoria=instance.id) #Aqui borramos todos los videos de esta categoria
+            videos.delete()
+
+        else:
+
+            ruta = os.path.join(settings.MEDIA_ROOT)+"/videos/"+instance.nombre
+            videos = Video.objects.filter(categoria=instance.id) #Aqui borramos todos los videos de esta categoria
+            videos.delete()
+            
         shutil.rmtree(ruta)
 
         Permiso = Permission.objects.get(name="ver_"+instance.nombre)
         Permiso.delete()
 
         print(ruta)
+
     except OSError as e:
         print(f"Error:{ e.strerror}")
 
@@ -424,8 +437,18 @@ class Subcategoria(models.Model):
             
             super(Subcategoria, self).save(*args, **kwargs)
         else:
+
+            
+
             print("No existe nada...")
-            os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.categoria.nombre+"/"+self.nombre)
+            print("Creando nueva Subcategoria...",self.nombre," dentro de la categoria: ",self.categoria.nombre)
+
+            if self.categoria.nombre == "descargas":
+                os.mkdir(os.path.join(settings.MEDIA_ROOT,str(self.categoria.nombre),self.nombre))
+            else:
+                os.mkdir(os.path.join(settings.MEDIA_ROOT)+"/"+"videos/"+self.categoria.nombre+"/"+self.nombre)
+            
+            
             super(Subcategoria, self).save(*args, **kwargs)
 
 
@@ -441,9 +464,17 @@ def BorrarSubacategoria(sender,instance,**kwargs):
 
     try:
         #Para borrar el directorio y todo lo que haya dentro
-        ruta = os.path.join(settings.MEDIA_ROOT)+"/videos/"+instance.categoria.nombre+"/"+instance.nombre
-        videos = Video.objects.filter(subcategoria=instance.id) #Aqui borramos todos los videos de esta subcategoria
-        videos.delete()
+        if instance.categoria.nombre == "descargas":
+            ruta = os.path.join(settings.MEDIA_ROOT,instance.categoria.nombre,instance.nombre)
+            videos = Video.objects.filter(subcategoria=instance.id) #Aqui borramos todos los videos de esta subcategoria
+            videos.delete()
+
+        else:
+
+            ruta = os.path.join(settings.MEDIA_ROOT)+"/videos/"+instance.categoria.nombre+"/"+instance.nombre
+            videos = Video.objects.filter(subcategoria=instance.id) #Aqui borramos todos los videos de esta subcategoria
+            videos.delete()
+
         shutil.rmtree(ruta)
 
         print(ruta)

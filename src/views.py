@@ -111,7 +111,7 @@ class Index(TemplateView):
 ################ AQUI VA LA LOGICA DE LOS PERMISOS##############
         print("Usuario get: ",self.request.user)
         Lista_Categorias_Permitidas = list(self.request.user.get_all_permissions())
-        #print("Permisos: ",Lista_Categorias_Permitidas)
+        print("Permisos: ",Lista_Categorias_Permitidas)
         #print("Permisos cantidad: ",len(Lista_Categorias_Permitidas))
         #print("Ruta que frao:",settings.MEDIA_ROOT)
 
@@ -121,7 +121,7 @@ class Index(TemplateView):
 
             for Nombre_Categoria in Lista_Categorias_Permitidas:
 
-                print(Nombre_Categoria, Nombre_Categoria.find('_')," -------------- ",Nombre_Categoria[Nombre_Categoria.index('_')+1:])
+                #print(Nombre_Categoria, Nombre_Categoria.find('_')," -------------- ",Nombre_Categoria[Nombre_Categoria.index('_')+1:])
                 #print(Nombre_Categoria[Nombre_Categoria.index('_')+1:])
                 
                 #Con esto concatenamos queryset
@@ -129,40 +129,19 @@ class Index(TemplateView):
             #Q1 |= 
         
         context['categorias'] = Q1
+        
         context['subcategorias'] = Subcategoria.objects.filter(activo=True)
 
+        ############## ACTIVOS AQUI ################
 
-        #miVideo = Video.objects.get(pk=1)
-        #print("RUTA: ",os.path.join(settings.MEDIA_ROOT))
-        #print("RUTA MEDIA_ROOT: ",miVideo.video)
-        #pathExt = miVideo.video.name
-        #print("SIN LA R: ",pathExt)
-        #print(os.name)
+        if "src.ver_descargas" in Lista_Categorias_Permitidas:
+            print("Si tienes el permiso de esta categoria descargas")
+            context['categoriaDescargas'] = Categoria.objects.filter(nombre="descargas")
+        else:
+            print("No tienes el permiso de esta categoria descargas")
+            context['categoriaDescargas'] = Categoria.objects.none()
 
-        try:
-
-            archivos = os.listdir(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/")
-            #print(archivos[0])
-            dirname = os.path.dirname(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"+archivos[0])
-        
-            # Muestra el directorio del archivo
-            #print(dirname)
-        except:
-            pass
-            #os.path.exists es para saber si existe la ruta
-            #print(os.path.exists(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"))
-            #print("No existe la ruta aqui")
-            #dirname = os.path.dirname(os.path.join(settings.MEDIA_ROOT)+"/videos/zulia/enero/"+archivos[0])
-        
-        # Muestra el directorio del archivo
-        #print(dirname)
-
-        #print(os.path.join(settings.MEDIA_ROOT+"/"+str(miVideo.video)))
-        #os.remove(os.path.join(settings.MEDIA_ROOT+"/"+str(miVideo.video)))
-        
-        #pathExt = r"/media/videos/zulia/enero/2021-03-22_21-01-22.mkv"
-        #os.remove(os.path.join(settings.MEDIA_ROOT))
-        #os.rmdir(os.path.join(settings.MEDIA_ROOT+r"/videos"))
+        ############################################
         
 
         print("Probando aqui abajo jajajaj")

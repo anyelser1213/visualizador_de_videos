@@ -1,0 +1,12 @@
+{% load trabajar_string %}<!--ESTA LIBRERIA ES PARA QUITAR LA EXTENSION PERO AQUI NO HACE FALTA--->
+
+{% if existe %}
+
+  {% for archivo in archivos %}
+  
+    <li >
+      <a data-ruta="{{ruta}}{{archivo}}" data-nombreArchivo="{{archivo}}" class="dropdown-item" href="#" onclick="DescargarArchivo(this)" >{{archivo}}</a>
+    </li>
+
+  {% endfor %}
+{% endif%}
