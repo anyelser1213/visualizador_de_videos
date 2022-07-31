@@ -73,6 +73,13 @@ class VideoAdmin(admin.ModelAdmin):
     fields = ('categoria', 'subcategoria', 'activo', 'video') #Campos que se van a mostrar al crear un nuevo video
     ordering = ('nombre',)
 
+class ArchivosAdmin(admin.ModelAdmin):
+    #readonly_fields = ('categoria', 'nombre') #Si lo colocas no se podra agregar nada
+    list_display = ('nombre','categoriaPrueba','subcategoria', 'activo','archivo')
+
+    fields = ('categoriaPrueba', 'subcategoria', 'activo', 'archivo') #Campos que se van a mostrar al crear un nuevo video
+    ordering = ('nombre',)
+
 
 
 
@@ -85,4 +92,6 @@ admin.site.register(Permission)
 admin.site.register(Categoria, CategoriaAdmin)
 admin.site.register(Subcategoria,SubcategoriaAdmin)
 admin.site.register(Video,VideoAdmin)
+admin.site.register(Archivos,ArchivosAdmin)
+
 admin.site.register(Fondos)

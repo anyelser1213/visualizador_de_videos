@@ -567,3 +567,84 @@ def BorrarVideo(sender,instance,**kwargs):
 
     print("Se acaba de Borrar el video")
 
+
+
+
+#Para poner el archivo en su lugar
+def UbicacionArchivos(instance, filename):
+  
+    # file will be uploaded to MEDIA_ROOT / user_<id>/<filename>
+    print(instance.subcategoria.nombre)
+    return 'descargas/{0}/{1}'.format(instance.subcategoria.nombre, filename)
+
+class Archivos(models.Model):
+    categorias = [
+        #El primer campo es para bases de datos y el segundo para visualizar
+        ("descargas", 'Descargas'),
+    ]
+
+
+    nombre = models.CharField(max_length=200,unique=True)
+    #categoria = models.ForeignKey("Categoria", on_delete=models.CASCADE)
+    categoriaPrueba = models.CharField("Categoria",max_length=150,choices=categorias,default='descargas')
+    subcategoria = models.ForeignKey("Subcategoria", on_delete=models.CASCADE, null=True, blank=True)
+    activo = models.BooleanField(default=True)
+    archivo = models.FileField(upload_to=UbicacionArchivos)
+
+    class Meta:
+        verbose_name = "Archivo"
+        verbose_name_plural = "Archivos"
+        db_table = 'Archivos'
+
+    def __str__(self):
+        return "archivos"
+
+    def save(self, *args, **kwargs): 
+
+        print("Probando con archivos") 
+        #print(self.video.filename)
+        
+        #self.video.name = self.categoria,"/",self.mes
+        #aux = os.path.join(self.categoria,self.mes,self.video.name)
+        #print(aux)
+        #self.video.name = aux
+
+
+        #indice_final = 
+        #print(self.video.name)
+        print("prueba: ",self.archivo.name[:self.archivo.name.index('.')])
+        
+        self.nombre = self.archivo.name[:self.archivo.name.index('.')]
+        #self.nombre = self.archivo.name #[:self.video.name.index('.')] #Guardamos el nombre del video
+        #self..name = os.path.join(str(self.subcategoria),self.archivo.name)#Guardamos la ruta
+        super(Archivos, self).save(*args, **kwargs)
+
+    
+#Funcion para borrar archivos
+@receiver(pre_delete,sender=Archivos)
+def BorrarArchivos(sender,instance,**kwargs):
+
+
+
+    #print(sender)
+    #print(instance)
+    print("categoria: ",instance.categoriaPrueba)
+    print("subcategoria: ",instance.subcategoria.nombre)
+    print("elemento video: ",instance.nombre)
+
+
+    try:
+        #Para borrar el directorio y todo lo que haya dentro
+        archivo = instance.nombre
+        ruta = os.path.join(settings.MEDIA_ROOT,instance.archivo.name)
+        #ruta = os.path.join(settings.MEDIA_ROOT)+"videos"+instance.categoria.nombre+"/"+instance.subcategoria.nombre+"\\"+instance.nombre
+        
+        os.remove(ruta) #Con esto borramos el archivo
+        #print(ruta)
+    except OSError as e:
+
+        print(f"Error:{ e.strerror}")
+
+
+
+    print("Se acaba de Borrar el video")
