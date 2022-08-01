@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib import admin
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.core.exceptions import ValidationError
 from django.db.models import fields
@@ -156,4 +157,7 @@ class UsuariosForm(UserCreationForm):
     
 
 
-###################### AQUI COMIENZAN LOS FORMULARIOS PARA EMPRESA, DEPARTAMENTO Y ENTREVISTAS ##########################################
+###################### AQUI COMIENZAN LOS FORMULARIOS PARA EDITAR EN EL ADMIN ##########################################
+
+
+
