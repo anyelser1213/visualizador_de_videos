@@ -187,16 +187,16 @@ def Probando(request):
             if IconoWeb.imagen =="":
                 IconoWeb.imagen = "/media/default/default.jpeg"
                 #Concatenamos el diccionario
-                datos|= {'IconPagWeb':str(IconoWeb.imagen)}
+                datos.update({'IconPagWeb':str(IconoWeb.imagen)})
             else:
                 #Concatenamos el diccionario
-                datos|= {'IconPagWeb':IconoWeb.imagen.url}
+                datos.update({'IconPagWeb':IconoWeb.imagen.url})
 
         except Fondos.DoesNotExist:
 
             IconoWeb.imagen = "/media/default/default.jpeg"
             #Concatenamos el diccionario
-            datos|= {'IconPagWeb':str(IconoWeb.imagen)}
+            datos.update({'IconPagWeb':str(IconoWeb.imagen)})
 
 
         
@@ -248,12 +248,12 @@ def api_login(request):
 
                 respuestaImagenLogin = "/media/default/default.jpeg"
                 #Concatenamos el diccionario
-                datos|= {'ImagenLogin':str(respuestaImagenLogin)}
+                datos.update({'ImagenLogin':str(respuestaImagenLogin)})
 
             else:
 
                 respuestaImagenLogin = ImagenLogin.imagen.url
-                datos|= {'ImagenLogin':respuestaImagenLogin}
+                datos.update({'ImagenLogin':respuestaImagenLogin})
         except Fondos.DoesNotExist:
             respuestaImagenLogin = "null"
 
@@ -267,16 +267,16 @@ def api_login(request):
             if IconoWeb.imagen =="":
                 IconoWeb.imagen = "/media/default/default.jpeg"
                 #Concatenamos el diccionario
-                datos|= {'IconPagWeb':str(IconoWeb.imagen)}
+                datos.update({'IconPagWeb':str(IconoWeb.imagen)})
             else:
                 #Concatenamos el diccionario
-                datos|= {'IconPagWeb':IconoWeb.imagen.url}
+                datos.update({'IconPagWeb':IconoWeb.imagen.url})
 
         except Fondos.DoesNotExist:
 
             IconoWeb.imagen = "/media/default/default.jpeg"
             #Concatenamos el diccionario
-            datos|= {'IconPagWeb':str(IconoWeb.imagen)}
+            datos.update({'IconPagWeb':str(IconoWeb.imagen)})
 
 
         #print(fondo)
