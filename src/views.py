@@ -159,25 +159,48 @@ def pruebas(request):
 
 ###### APIS ##########
 
-
+#API PARA LA PAGINA INDEX
 def Probando(request):
 
     print("probando usuario:",request.user)
     if request.method == 'GET':
 
+        datos = dict()
         #ESTO ES PARA EL FONDO DE INDEX
         try:
             fondo = Usuarios.objects.get(username=request.user.username)
             if fondo.imagenFondoEscritorio =="":
-                fondo = "null"
+                print("El usuario no tiene imagen de fondo")
+                #fondo = "null"
+
+
+                fondo = Fondos.objects.get(nombre="fondo")
+                print(fondo)
+                
+                if fondo.imagen=="":
+                    print("La imagen esta en blanco")
+                    fondo = "null"
+                    datos = {'FondoIndex':fondo}
+                else:
+                    print("La imagen no esta en blanco")
+                print(fondo.imagen.url)
+
+                datos = {'FondoIndex':fondo.imagen.url}
+
+
+            else:
+                print("El usuario si tiene imagen NJDA")
+                datos = {'FondoIndex':fondo.imagenFondoEscritorio.url}
+                
         except Fondos.DoesNotExist:
+
             fondo = "null"
+            datos = {'FondoIndex':fondo}
 
         #print(fondo)
         #print("jajajajaja: ",fondo.imagenFondoEscritorio)
         #print(fondo.imagenFondoEscritorio.url)
-        prueba = fondo.imagenFondoEscritorio.url
-        datos = {'FondoIndex':prueba}
+        
 
 
 
